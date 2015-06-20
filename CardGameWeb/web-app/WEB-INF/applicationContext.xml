@@ -7,7 +7,9 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 	<bean id="grailsApplication" class="org.codehaus.groovy.grails.commons.GrailsApplicationFactoryBean">
 		<description>Grails application factory bean</description>
 		<property name="grailsDescriptor" value="/WEB-INF/grails.xml" />
+<!--  to be deleted
 		<property name="grailsResourceLoader" ref="grailsResourceLoader" />
+  -->
 	</bean>
 
 	<bean id="pluginManager" class="org.codehaus.groovy.grails.plugins.GrailsPluginManagerFactoryBean">
@@ -22,12 +24,15 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 		</constructor-arg>
 		<property name="pluginManager" ref="pluginManager" />
 	</bean>
-
+<!--  to be deleted
 	<bean id="grailsResourceLoader" class="org.codehaus.groovy.grails.commons.GrailsResourceLoaderFactoryBean" />
-
+-->
 	<bean id="characterEncodingFilter" class="org.springframework.web.filter.CharacterEncodingFilter">
 		<property name="encoding">
 			<value>utf-8</value>
 		</property>
 	</bean>
+	
+	<bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean" />
+	
 </beans>
