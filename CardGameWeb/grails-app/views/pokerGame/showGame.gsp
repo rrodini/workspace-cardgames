@@ -23,8 +23,8 @@ img.cardLarge  { width:72px; height:96px }
  background-color: #abbf78;
 }
 </style>
-<g:javascript library="jquery" />
-<r:script >
+<script src="../js/jquery-2.1.3.min.js" ></script>
+<script >
 $(document).ready(function() {
  $(".content").hide();
  $(".heading").click(function() {
@@ -41,7 +41,7 @@ $(document).ready(function() {
    $(this).siblings().not(this).toggle();
  });
 });
-</r:script>
+</script>
 	 <title>Game Results</title>
 	</head>
 	<body>
@@ -77,11 +77,8 @@ $(document).ready(function() {
     tie
    </g:else>
     ${winningRank?.toString() }<br/>
-   <!-- 
-   <a href="${createLink(action:'showPlayers')}">Play again?</a><br/>
-   -->
    <g:form controller="pokerGame">
-   <g:actionSubmit action="showPlayers" value="Play again?"/>
+   <g:actionSubmit action="showPlayers" value="Play again?" class="buttons"/>
    </g:form>
 </body>
 

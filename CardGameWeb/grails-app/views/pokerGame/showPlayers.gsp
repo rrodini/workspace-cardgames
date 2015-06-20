@@ -5,11 +5,11 @@
 	<head>
 		<meta name="layout" content="main">
 		<title>Player Selection</title>
-<g:javascript library="jquery" />
-<r:script >
+<script src="../js/jquery-2.1.3.min.js" ></script>
+<script>
 function countPlayers() {
    var value = true;
-   var count = $("option:selected").length;   
+   var count = $("#playerIds :selected").length;   
    if (count == 0) {
      alert('You must select at least one player.');
      value = false;
@@ -17,16 +17,18 @@ function countPlayers() {
    return value;
  }
 
-</r:script>
+</script>
 	</head>
 	<body>
+	<div style="padding: 20px;">
     <a href="${createLink(uri:'/')}">Home</a>
-    <h1>Select players for game</h1>
 	<g:form controller="pokerGame" action="showGame">
-		<fieldset class="buttons">
-			<g:select name="playerIds" from="${Player.list()}" optionKey="id" optionValue="${playerIds?.firstName}" multiple="true" /><br/>
-			<g:submitButton name="showGame" value="Play Game"  onclick="return countPlayers()" />
-		</fieldset>
+      <p>Select players for game:</p>
+	  <g:select id="playerIds" name="playerIds" from="${Player.list()}" optionKey="id" optionValue="${playerIds?.firstName}" multiple="true" /><br/>
+      <p>Select number of games to play:</p>
+	  <g:select name="numOfGames" from="${1..100}" value="${1}" /></br>			
+      <g:submitButton name="showGame" value="Play Game"  onclick="return countPlayers()" class="buttons" />
 	</g:form>
+	</div>
 	</body>
 </html>
