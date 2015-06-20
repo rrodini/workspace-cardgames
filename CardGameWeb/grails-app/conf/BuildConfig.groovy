@@ -20,7 +20,7 @@ grails.project.dependency.resolution = {
         // specify dependency exclusions here; for example, uncomment this to disable ehcache:
         // excludes 'ehcache'
     }
-    log "error" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
+    log "warn" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
     checksums true // Whether to verify checksums on resolve
     legacyResolve false // whether to do a secondary resolve on plugin installation, not advised and here for backwards compatibility
 
@@ -43,24 +43,31 @@ grails.project.dependency.resolution = {
 
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes e.g.
-
-        runtime 'mysql:mysql-connector-java:5.1.26'
+// Don't really need mysql running
+//        runtime 'mysql:mysql-connector-java:5.1.26'
+// 2.2.1 get the jars from the lib folder
+		runtime 'mylib:cardcore:1.0'
+		runtime 'mylib:cardgame:1.0'
+// added due to errors during grails run-app
+		runtime 'org.springframework:spring-expression:4.0.8.RELEASE'
+		runtime 'org.springframework:spring-aop:4.0.8.RELEASE'
     }
 
     plugins {
-        runtime ":hibernate:$grailsVersion"
-        runtime ":jquery:1.8.3"
-        runtime ":resources:1.1.6"
+        runtime ":hibernate:3.6.10.16"  // updated for Grails 2.4.2
+        runtime ":jquery:1.11.0.2"      // commented out due to syntax errors
+        //runtime ":resources:1.2.14"
 
         // Uncomment these (or add new ones) to enable additional resources capabilities
         //runtime ":zipped-resources:1.0"
         //runtime ":cached-resources:1.0"
         //runtime ":yui-minify-resources:0.1.5"
 
-        build ":tomcat:$grailsVersion"
+        build ":tomcat:7.0.54" // updated for Grails 2.4.2
 
-        runtime ":database-migration:1.3.2"
+        //runtime ":database-migration:1.3.2" // commented out for Grails 2.4.2
 
-        compile ':cache:1.0.1'
+        //compile ':cache:1.1.8'   // commented out due to compiler errors regarding aop
+		compile ':scaffolding:2.1.2'
     }
 }
