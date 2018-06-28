@@ -5,7 +5,7 @@ package com.cardtech.core;
  */
 public enum Suit {
 	CLUB,
-	HEART,
 	DIAMOND,
+	HEART,
 	SPADE,
 }

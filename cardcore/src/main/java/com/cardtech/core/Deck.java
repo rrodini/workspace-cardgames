@@ -3,104 +3,81 @@ package com.cardtech.core;
 import static com.cardtech.core.AddToDeck.ADD_TO_BOTTOM;
 import static com.cardtech.core.AddToDeck.ADD_TO_RANDOM;
 import static com.cardtech.core.AddToDeck.ADD_TO_TOP;
-import static com.cardtech.core.Card.ACE_CLUB;
-import static com.cardtech.core.Card.ACE_DIAMOND;
-import static com.cardtech.core.Card.ACE_HEART;
-import static com.cardtech.core.Card.ACE_SPADE;
-import static com.cardtech.core.Card.EIGHT_CLUB;
-import static com.cardtech.core.Card.EIGHT_DIAMOND;
-import static com.cardtech.core.Card.EIGHT_HEART;
-import static com.cardtech.core.Card.EIGHT_SPADE;
-import static com.cardtech.core.Card.FIVE_CLUB;
-import static com.cardtech.core.Card.FIVE_DIAMOND;
-import static com.cardtech.core.Card.FIVE_HEART;
-import static com.cardtech.core.Card.FIVE_SPADE;
-import static com.cardtech.core.Card.FOUR_CLUB;
-import static com.cardtech.core.Card.FOUR_DIAMOND;
-import static com.cardtech.core.Card.FOUR_HEART;
-import static com.cardtech.core.Card.FOUR_SPADE;
-import static com.cardtech.core.Card.JACK_CLUB;
-import static com.cardtech.core.Card.JACK_DIAMOND;
-import static com.cardtech.core.Card.JACK_HEART;
-import static com.cardtech.core.Card.JACK_SPADE;
-import static com.cardtech.core.Card.KING_CLUB;
-import static com.cardtech.core.Card.KING_DIAMOND;
-import static com.cardtech.core.Card.KING_HEART;
-import static com.cardtech.core.Card.KING_SPADE;
-import static com.cardtech.core.Card.NINE_CLUB;
-import static com.cardtech.core.Card.NINE_DIAMOND;
-import static com.cardtech.core.Card.NINE_HEART;
-import static com.cardtech.core.Card.NINE_SPADE;
-import static com.cardtech.core.Card.QUEEN_CLUB;
-import static com.cardtech.core.Card.QUEEN_DIAMOND;
-import static com.cardtech.core.Card.QUEEN_HEART;
-import static com.cardtech.core.Card.QUEEN_SPADE;
-import static com.cardtech.core.Card.SEVEN_CLUB;
-import static com.cardtech.core.Card.SEVEN_DIAMOND;
-import static com.cardtech.core.Card.SEVEN_HEART;
-import static com.cardtech.core.Card.SEVEN_SPADE;
-import static com.cardtech.core.Card.SIX_CLUB;
-import static com.cardtech.core.Card.SIX_DIAMOND;
-import static com.cardtech.core.Card.SIX_HEART;
-import static com.cardtech.core.Card.SIX_SPADE;
-import static com.cardtech.core.Card.TEN_CLUB;
-import static com.cardtech.core.Card.TEN_DIAMOND;
-import static com.cardtech.core.Card.TEN_HEART;
-import static com.cardtech.core.Card.TEN_SPADE;
-import static com.cardtech.core.Card.THREE_CLUB;
-import static com.cardtech.core.Card.THREE_DIAMOND;
-import static com.cardtech.core.Card.THREE_HEART;
-import static com.cardtech.core.Card.THREE_SPADE;
-import static com.cardtech.core.Card.TWO_CLUB;
-import static com.cardtech.core.Card.TWO_DIAMOND;
-import static com.cardtech.core.Card.TWO_HEART;
-import static com.cardtech.core.Card.TWO_SPADE;
 import static com.cardtech.core.DealPosition.DEAL_FROM_BOTTOM;
 import static com.cardtech.core.DealPosition.DEAL_FROM_TOP;
 import static com.cardtech.core.RemoveACard.BOTTOM_CARD;
+import static com.cardtech.core.Rank.TWO;
+import static com.cardtech.core.Rank.ACE;
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
-public class Deck {
+public class Deck implements Iterable<Card> {
 
-	private List<Card> cardsBySuit = (List<Card>) Arrays.asList(
-			TWO_CLUB,THREE_CLUB,FOUR_CLUB,FIVE_CLUB,SIX_CLUB,SEVEN_CLUB,EIGHT_CLUB,NINE_CLUB,TEN_CLUB,JACK_CLUB,QUEEN_CLUB,KING_CLUB,ACE_CLUB,
-			TWO_HEART,THREE_HEART,FOUR_HEART,FIVE_HEART,SIX_HEART,SEVEN_HEART,EIGHT_HEART,NINE_HEART,TEN_HEART,JACK_HEART,QUEEN_HEART,KING_HEART,ACE_HEART,
-			TWO_DIAMOND,THREE_DIAMOND,FOUR_DIAMOND,FIVE_DIAMOND,SIX_DIAMOND,SEVEN_DIAMOND,EIGHT_DIAMOND,NINE_DIAMOND,TEN_DIAMOND,JACK_DIAMOND,QUEEN_DIAMOND,KING_DIAMOND,ACE_DIAMOND,
-			TWO_SPADE,THREE_SPADE,FOUR_SPADE,FIVE_SPADE,SIX_SPADE,SEVEN_SPADE,EIGHT_SPADE,NINE_SPADE,TEN_SPADE,JACK_SPADE,QUEEN_SPADE,KING_SPADE,ACE_SPADE
-	);
-
-	private List<Card> cardsByRank = (List<Card>) Arrays.asList(
-			TWO_CLUB,TWO_HEART,TWO_DIAMOND,TWO_SPADE,THREE_CLUB,THREE_HEART,THREE_DIAMOND,THREE_SPADE,FOUR_CLUB,FOUR_HEART,FOUR_DIAMOND,FOUR_SPADE,
-			FIVE_CLUB,FIVE_HEART,FIVE_DIAMOND,FIVE_SPADE,SIX_CLUB,SIX_HEART,SIX_DIAMOND,SIX_SPADE,SEVEN_CLUB,SEVEN_HEART,SEVEN_DIAMOND,SEVEN_SPADE,
-			EIGHT_CLUB,EIGHT_HEART,EIGHT_DIAMOND,EIGHT_SPADE,NINE_CLUB,NINE_HEART,NINE_DIAMOND,NINE_SPADE,TEN_CLUB,TEN_HEART,TEN_DIAMOND,TEN_SPADE,
-			JACK_CLUB,JACK_HEART,JACK_DIAMOND,JACK_SPADE,QUEEN_CLUB,QUEEN_HEART,QUEEN_DIAMOND,QUEEN_SPADE,KING_CLUB,KING_HEART,KING_DIAMOND,KING_SPADE,
-			ACE_CLUB,ACE_HEART,ACE_DIAMOND,ACE_SPADE
-	);
-	private static ArrayList<Card> cards;
+	private List<Card> cards = new ArrayList<>();
+	public static final int STANDARD_DECK_SIZE = 52;
 
  /**
   * Create a new deck in "standard" order, i.e. ordered by suit.
   */
 	public Deck() {
-		cards = new ArrayList<Card>(cardsBySuit);
+		createDeckSuitOrder();
 	}
-
+ /**
+  * Create a deck as per the order parameter.
+  * @param order by Suit or by Rank.
+  */
+	public Deck(DeckOrder order) {
+		if (order == DeckOrder.SUIT_ORDER) {
+			createDeckSuitOrder();
+		} else if (order == DeckOrder.RANK_ORDER) {
+			createDeckRankOrder();
+		} else {
+			throw new IllegalArgumentException("order value not Suit or Rank: " + order );
+		}
+	}
+ /**
+  *  create 52 card deck by suit.
+  */
+	private void createDeckSuitOrder() {
+		createSuit(Suit.CLUB);
+		createSuit(Suit.DIAMOND);
+		createSuit(Suit.HEART);
+		createSuit(Suit.SPADE);
+	}
+	
+ /**
+  * Create 14 cards of the given suit.
+  * @param s suit to create.
+  */
+	private void createSuit(Suit s) {
+		for (int i = TWO.getValue(); i <= ACE.getValue(); i++) {
+			cards.add(new Card(s, i));
+		}
+	}
  /**
   * Create a new deck in rank order.  Useful for specific test cases.	
-  * @param rankOrder must be true.
   */
-	public Deck(boolean rankOrder) {
-		if (rankOrder) {
-			cards = new ArrayList<Card>(cardsByRank);
-		} else {
-			throw new IllegalArgumentException();
+	private void createDeckRankOrder() {
+		for (int i = TWO.getValue(); i <= ACE.getValue(); i++) {
+			cards.add(new Card(Suit.CLUB, i));
+			cards.add(new Card(Suit.DIAMOND, i));
+			cards.add(new Card(Suit.HEART, i));
+			cards.add(new Card(Suit.SPADE, i));
 		}
 	}
 
 /**
+ * Let the caller create the cards for the deck (DI here).	
+ */
+	//@Inject
+	public Deck(List<Card> cards) {
+		this.cards = cards;
+	}
+ /**
   * Shuffle the deck.  This puts whatever cards are in the deck in a random order.
   */
 	public void shuffle() {
@@ -285,9 +262,9 @@ public class Deck {
 		
 	}
 	
- /**
-  * Show the cards in the deck.	
-  */
+  /**
+   * Show the cards in the deck.	
+   */
 	public void show() {
 		for (int i = 0; i < cards.size(); i++) {
 			cards.get(i).show();
@@ -295,12 +272,21 @@ public class Deck {
 		System.out.println();
 	}
 
- /**
-  * Return the deck.	
-  */
+   /**
+    * Return the deck.	
+    */
 	public List<Card> getDeck() {
 		return cards;
 	}
+   /**
+    * Return an iterator over the cards of the deck.
+    * @return an iterator.
+    */
+	@Override
+	public Iterator<Card> iterator() {
+		return (Iterator<Card>) cards.iterator();
+	}
+	
 
 	
 }

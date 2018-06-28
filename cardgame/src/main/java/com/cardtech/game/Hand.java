@@ -37,13 +37,20 @@ public class Hand {
 	}
 
  /**
-  * Sort the cards in the hand.  Remember Card implements Comparator making this possible.
+  * Sort the cards in the hand.  Remember Card implements Comparable making this possible.
   */
 	protected void sort() {
-		// Looks strange but any Card object is-a Comparator object.
-		Comparator<Card> c =  (Comparator<Card>) Card.TWO_CLUB; 
-		Collections.sort(hand, c);
+		Collections.sort(hand);
 	}
+
+ /**
+  * Sort the cards in the hand.
+  * @param orderBy - a Card comparator.
+  */
+	protected void sort(Comparator<Card> orderBy) {
+		Collections.sort(hand, orderBy);
+	}
+	
 	
  /**
   * Show the cards in the hand on the console.
