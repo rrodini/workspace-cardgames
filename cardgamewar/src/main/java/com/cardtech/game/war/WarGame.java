@@ -1,7 +1,7 @@
 
-package com.cardtech.game;
+package com.cardtech.game.war;
 
-import static com.cardtech.game.WarRoundContext.NO_WAR;
+import static com.cardtech.game.war.WarRoundContext.NO_WAR;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -12,6 +12,9 @@ import java.util.TreeMap;
 import com.cardtech.core.Card;
 import com.cardtech.core.CardBySuitComparator;
 import com.cardtech.core.Deck;
+import com.cardtech.game.CardGame;
+import com.cardtech.game.Hand;
+import com.cardtech.game.Player;
 
 /**
  * 
