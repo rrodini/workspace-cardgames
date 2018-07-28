@@ -58,7 +58,7 @@ public class WarGame extends CardGame {
 	private void initializeActivePlayers() {
 		activePlayers = new ArrayList<Integer>(noOfPlayers);
 		for (int i = 0; i < noOfPlayers; i++) {
-			activePlayers.add(i, new Integer(i));
+			activePlayers.add(i, Integer.valueOf(i));
 			hands.set(i, new WarHand() );
 		}
 	}
