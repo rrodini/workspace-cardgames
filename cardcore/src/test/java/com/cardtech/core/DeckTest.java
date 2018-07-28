@@ -112,6 +112,7 @@ public class DeckTest {
 	public void testDeckConstructorException() {
 		assertThrows(IllegalArgumentException.class, () -> {
 			DeckOrder order = null;
+			@SuppressWarnings("unused")
 			Deck deck = new Deck(order);
 		});
 	}
@@ -125,6 +126,7 @@ public class DeckTest {
 		assertEquals(Deck.STANDARD_DECK_SIZE, deck.getSize());
 		Iterator<Card> iter = deck.iterator();
 		while (iter.hasNext()) {
+			@SuppressWarnings("unused")
 			Card c = iter.next();
 			// Can't use below or get ConcurrentModificationException
 //			deck.removeCard(c);
@@ -274,13 +276,16 @@ public class DeckTest {
 	public void testExceptionWhenCardIsRemovedTwice() {
 		System.out.println("testExceptionWhenCardIsRemovedTwice()");
 		Card twoClub = new Card(Suit.CLUB, 2);
+		@SuppressWarnings("unused")
 		Card c1 = deck.removeCard(twoClub);
 		// exception here
 		assertThrows((IllegalStateException.class), () -> {
+			@SuppressWarnings("unused")
 			Card c2 = deck.removeCard(twoClub);
 		});
 	}
 	//@Disabled
+	@SuppressWarnings("unused")
 	public void testExceptionWhen53rdCardIsDealt() {
 		System.out.println("testExceptionWhen53rdCardIsDealt()");
 		List<Card> hand1 = deck.deal(13);
@@ -292,6 +297,7 @@ public class DeckTest {
 		});
 	}
 	//@Disabled
+	@SuppressWarnings("unused")
 	@Test
 	public void testExceptionWhenTooManyCardsAreDealt() {
 		System.out.println("testExceptionWhenTooManyCardsAreDealt()");
@@ -326,7 +332,7 @@ public class DeckTest {
 	}
 	@Test
 	public void testDeckGetDeck() {
-		List cards = deck.getDeck();
+		List<Card> cards = deck.getDeck();
 		assertTrue(cards != null);
 		assertEquals(Deck.STANDARD_DECK_SIZE, cards.size());
 	}
