@@ -76,7 +76,7 @@ public class PokerHand extends Hand implements Comparable<PokerHand> {
 			Card [] myHighCards = myRank.getHighCards();
 			Card [] yourHighCards = yourRank.getHighCards();
 			for (int i=0; i < myHighCards.length; i++) {
-				comp = new Integer(myHighCards[i].getValue()).compareTo(yourHighCards[i].getValue());
+				comp = Integer.valueOf(myHighCards[i].getValue()).compareTo(yourHighCards[i].getValue());
 				if (comp !=0) return comp;
 			}
 			return 0;  // it's actually a tie!
