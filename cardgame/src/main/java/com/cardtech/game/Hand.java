@@ -39,7 +39,7 @@ public class Hand {
  /**
   * Sort the cards in the hand.  Remember Card implements Comparable making this possible.
   */
-	protected void sort() {
+	public void sort() {
 		Collections.sort(hand);
 	}
 
@@ -83,7 +83,7 @@ public class Hand {
    * 
    * @throws IllegalArgumentException when bad index is passed.
    */
-	protected Card getCard(int which) {
+	public Card getCard(int which) {
 		if (which < 0 || which > hand.size()-1) {
 			throw new IllegalArgumentException("Bad index into hand:" + which);
 		}

@@ -7,13 +7,13 @@ import com.cardtech.core.Deck;
 
 /**
  * CardGame is the superclass for WarGame and PokerGame. <br/>
- * For the two games implemented the pattern for the game is simple: <br/>
+ * For the two games implemented the pattern (see GOF Template Pattern) for the game is simple: <br/>
  * 1. Construct the game <br/>
  *    a) identify the number of players <br/>
  * 2. Initialize the game  <br/>
  *    a) shuffle the deck (optional for testing purposes) <br/>
  *    b) deal cards to the players <br/>
- * 3. Play the game as per its rules <br/>
+ * 3. Play the game as per its rules using a fixed strategy<br/>
  * 4. Determine the winning hand <br/>
  */
 abstract public class CardGame {
@@ -34,7 +34,8 @@ abstract public class CardGame {
 	protected List<Hand> hands;
 	
  /**
-  * deck of course is the deck of cards used for this instance of the game.	
+  * deck of course is the deck of cards used for this instance of the game.	<br/>
+  * Note: A deck may or may not be 52 cards.
   */
 	protected Deck deck;
  /**
@@ -53,7 +54,7 @@ abstract public class CardGame {
   * @param deck - a deck in a specific order
   * @param players - players in the game.
   */
-	protected CardGame(Deck deck, Player... players) {
+	public CardGame(Deck deck, Player... players) {
 		if (players.length == 0) {
 			throw new IllegalArgumentException("CardGame cannot have 0 players.");
 		}
