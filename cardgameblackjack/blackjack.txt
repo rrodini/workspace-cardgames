@@ -1,0 +1,92 @@
+Rules:
+- No betting (includes no doubling down and insurance bets)
+- Max of one split on first two cards (maybe relaxed later)
+
+
+Blackjack constructor
+- determine # players (Dealer is-a Player)
+- create deck(s) as per # players
+
+initialize()
+- shuffle / cut deck
+
+play()
+- loop: deal first card face up to player, dealer
+- loop: deal second card face up to player. deal second card face down to dealer.
+        if any player or dealer has NATURAL then
+          GAME OVER
+          dealer exposes his down card
+          winners are determined        
+
+ - loop: players
+           get player response
+           SPLIT => split player's hand
+           HIT   => evaluate hand
+                    OVER21 => player loses
+                    EXACTLY21 => player STAND
+           STAND => player waits for outcome of dealer's hand
+           
+     
+ - dealer exposes his down card
+   loop: dealer accepts cards as per house rules
+   winners are determined 
+ 
+ getWinner()
+ - evaluate dealer's hand
+   declare dealer winner
+   if 21 then
+     loop: evaluate players hand(s)
+     if 21 then 
+       declare player winner
+   else
+     loop: evaluate players hand(s)
+         if hand total > dealer total and total <= 21 then
+           declare player winner  
+ 
+ BJHand
+ - is-a Hand
+ 
+ BJPlayerHand
+ - is-a BJHand
+ 
+ BJDealerHand
+ - is-a BJHand
+ 
+ BJHandValue
+ - firmness => HARD, SOFT
+     can change from SOFT to HARD
+ - highLevel => OVER21, EXACTLY21, UNDER21
+     only HARD hands can be OVER21 (is this true?)
+ - aceCount
+ - lowValue
+     if SOFT hand then low value of cards
+     if HARD hand then lowValue == highValue
+ - highValue
+     if SOFT hand then high value of cards
+     if HARD hand then low value == highValue
+ - general
+   ACE - 1 or 10 (implies SOFT hand unless 10 value results in OVER21)
+   J, Q, K - 10 (use proxy for card.getValue() ?)
+   Others - number value
+ 
+ BJPlayer
+ - is-a Player
+ - general: must have a hard-wired strategy
+ - response to HIT offer: STAND, HIT, SPLIT
+ 
+ 
+ BJPlayerStrategy
+ - general: objects that represent a fixed response to given situation
+ - given: player's hand, dealer's show card determines value of each
+   response: HIT (true), STAND (false)
+   
+ BJDealerStrategy
+ - general: plays by house rules
+ - given dealer's cards determines value
+   response: HIT (true), STAND (false) 
+   
+ 
+ 
+ 
+ 
+ 
