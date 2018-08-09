@@ -1,4 +1,5 @@
 package com.cardtech.game;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -19,7 +20,8 @@ public class Hand {
   * Default constructor.  No cards are placed in a hand at this point.  There should
   * be a call to setHand() in the future. 
   */
-	protected Hand() {	
+	protected Hand() {
+		hand = new ArrayList<Card>();
 	}
 	
  /**
@@ -32,7 +34,7 @@ public class Hand {
   /**
    * @return The cards in the hand.
    */
-	protected List<Card> getHand() {
+	public List<Card> getHand() {
 		return hand;
 	}
 
@@ -88,6 +90,29 @@ public class Hand {
 			throw new IllegalArgumentException("Bad index into hand:" + which);
 		}
 		return hand.get(which);
+	}
+   /**
+    * Does the hand contain the given card?
+    * Note: relies on Card.equals().
+    * @param which card sought.
+    * @return true => yes hand does contain card.
+    */
+	public boolean contains(Card which) {
+		return hand.contains(which);
+	}
+  /**
+   * Get the current number of cards in the hand.
+   * @return # of cards.
+   */
+	public int getCardCount() {
+		return hand.size();
+	}
+   /**
+    * Add a card to the hand at the end.
+    * @param c card to add.
+    */
+	public void addCard(Card c) {
+		hand.add(c);
 	}
 	
 }

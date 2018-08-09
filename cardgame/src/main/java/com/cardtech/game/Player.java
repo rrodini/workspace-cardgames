@@ -19,7 +19,7 @@ public class Player {
 		this.name = name;
 	}
 	
-	protected String getName() {
+	public String getName() {
 		return name;
 	}
 
