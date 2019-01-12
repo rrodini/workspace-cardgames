@@ -153,6 +153,30 @@ public class DeckTest {
 	}
 	//@Disabled
 	@Test
+	public void testCuttingTheDeckWithTwoCards() {
+		System.out.println("testCuttingTheDeckWithTwoCards()");
+		List<Card> cards = new ArrayList<>();
+		cards.add(new Card(CLUB, 2));
+		cards.add(new Card(CLUB, 3));
+		deck = new Deck(cards);
+		deck.cut();
+		assertEquals(2, deck.getSize());
+		assertTrue(new Card(CLUB, 3).equals(deck.removeCard(0)));;
+		assertTrue(new Card(CLUB, 2).equals(deck.removeCard(0)));;
+	}
+	//@Disabled
+	@Test
+	public void testCuttingTheDeckWithOneCard() {
+		System.out.println("testCuttingTheDeckWithOneCard()");
+		List<Card> cards = new ArrayList<>();
+		cards.add(new Card(CLUB, 2));
+		deck = new Deck(cards);
+		deck.cut();
+		assertEquals(1, deck.getSize());
+		assertTrue(new Card(CLUB, 2).equals(deck.removeCard(0)));;
+	}
+	//@Disabled
+	@Test
 	public void testDealingFromTheDeck() {
 		System.out.println("testDealingFromTheDeck()");
 		List<Card> hand1 = deck.deal(13);
@@ -173,6 +197,39 @@ public class DeckTest {
 			assertEquals(cardString(c.getValue(), c.getSuit()), c.toString());
 		}
 	}
+	//@Disabled
+	@Test
+	public void testDealingFromTheDeckWithException() {
+		System.out.println("testDealingFromTheDeckWithException()");
+		DealPosition pos = null;
+		assertThrows(IllegalArgumentException.class, () -> {
+			@SuppressWarnings("unused")
+			List<Card> cards = deck.deal(5, pos);
+		});
+	}
+	//@Disabled
+	@Test
+	public void testRemoveCardByIndexException() {
+		System.out.println("testRemoveCardByIndexException()");
+		assertThrows(IllegalArgumentException.class, () -> {
+			@SuppressWarnings("unused")
+			Card card = deck.removeCard(-1);
+		});
+		assertThrows(IllegalArgumentException.class, () -> {
+			@SuppressWarnings("unused")
+			Card card = deck.removeCard(52);
+		});
+	}	
+	//@Disabled
+	@Test
+	public void testRemoveCardByDirectionException() {
+		System.out.println("testRemoveCardByDirectionException()");
+		assertThrows(IllegalArgumentException.class, () -> {
+			@SuppressWarnings("unused")
+			RemoveACard how = null;
+			Card card = deck.removeCard(how);
+		});
+	}	
 	//@Disabled
 	@Test
 	public void testRemovingCardsFromDifferentAreasOfTheDeck() {
@@ -252,7 +309,18 @@ public class DeckTest {
 		// can't predict order, only count
 		assertEquals(6, deck.getSize());
 	}
-  /**
+	//@Disabled
+	@Test
+	public void testAddCardsByDirectionException() {
+		System.out.println("testAddCardsByDirectionException()");
+		assertThrows(IllegalArgumentException.class, () -> {
+			@SuppressWarnings("unused")
+			AddToDeck how = null;
+			List<Card> cards = List.of(new Card(SPADE, 2));
+			deck.addCards(cards, how);
+		});
+	}	
+ /**
    * create a deck of 3 cards of the club suit.	
    * @param low rank of low card.
    * @return cards for a Deck object.
@@ -285,6 +353,7 @@ public class DeckTest {
 		});
 	}
 	//@Disabled
+	@Test
 	@SuppressWarnings("unused")
 	public void testExceptionWhen53rdCardIsDealt() {
 		System.out.println("testExceptionWhen53rdCardIsDealt()");
@@ -332,8 +401,18 @@ public class DeckTest {
 	}
 	@Test
 	public void testDeckGetDeck() {
+		System.out.println("testDeckGetDeck()");
 		List<Card> cards = deck.getDeck();
 		assertTrue(cards != null);
 		assertEquals(Deck.STANDARD_DECK_SIZE, cards.size());
 	}
+	@Test
+	public void testSizeAndEmpty() {
+		System.out.println("testSizeAndEmpty()");
+		assertEquals(52, deck.getSize());
+		assertFalse(deck.isEmpty());
+		deck.deal(52);
+		assertTrue(deck.isEmpty());
+	}
+	
 }

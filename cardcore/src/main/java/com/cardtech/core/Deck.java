@@ -146,7 +146,7 @@ public class Deck implements Iterable<Card> {
 					d[i] = removeCard(BOTTOM_CARD);
 				}
 			} else {
-				throw new IllegalArgumentException("Unexpected value: " + pos.toString());
+				throw new IllegalArgumentException("Unexpected value: " + pos);
 			}
 			return new ArrayList<Card>(Arrays.asList(d));			
 		}
@@ -209,6 +209,9 @@ public class Deck implements Iterable<Card> {
   */
 	public Card removeCard(RemoveACard how) {
 		Card c = null;
+		if (null == how) {
+			throw new IllegalArgumentException("Unexpected value: " + how);
+		}
 		switch (how) {
 		case TOP_CARD:
 			c = removeCard(0);
@@ -220,8 +223,6 @@ public class Deck implements Iterable<Card> {
 			int which = (int) (Math.random() * cards.size());
 			c = removeCard(which);
 			break;
-		default:
-			throw new IllegalArgumentException("Unexpected value: " + how.toString());
 		}
 		return c;
 	}
@@ -257,7 +258,7 @@ public class Deck implements Iterable<Card> {
 			int index = (int) (Math.random() * getSize());
 			cards.addAll(index, list);
 		} else {
-			throw new IllegalArgumentException("Unexpected value: " + how.toString());			
+			throw new IllegalArgumentException("Unexpected value: " + how);			
 		}
 		
 	}

@@ -1,6 +1,11 @@
 package com.cardtech.core;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,10 +36,72 @@ class CardTest {
 			});
 	}
 	@Test
-	void testConstructorWithInvalidValue() {
+	void testConstructorWithInvalidValue0() {
 		Assertions.assertThrows(IllegalArgumentException.class, 
 				() -> { new Card(Suit.DIAMOND, 0);
 			});
+	}
+	@Test
+	void testConstructorWithInvalidValue15() {
+		Assertions.assertThrows(IllegalArgumentException.class, 
+				() -> { new Card(Suit.DIAMOND, 15);
+			});
+	}
+	@Test
+	void testShow() {
+		// must capture System.out printing
+		final PrintStream stdOut = System.out;
+		final ByteArrayOutputStream myOut = new ByteArrayOutputStream();
+		Card twoClub   = new Card(Suit.CLUB,   2);
+		Card threeClub = new Card(Suit.CLUB, 3);
+		Card fourClub  = new Card(Suit.CLUB,  4);
+		Card fiveClub  = new Card(Suit.CLUB,  5);
+		Card sixClub   = new Card(Suit.CLUB,  6);
+		Card sevenClub = new Card(Suit.CLUB,  7);
+		Card eightClub = new Card(Suit.CLUB,  8);
+		Card nineClub  = new Card(Suit.CLUB,  9);
+		Card tenClub   = new Card(Suit.CLUB, 10);
+		Card jackClub  = new Card(Suit.CLUB, 11);
+		Card queenClub = new Card(Suit.CLUB, 12);
+		Card kingClub  = new Card(Suit.CLUB, 13);
+		Card aceClub   = new Card(Suit.CLUB, 14);
+		String printResult = null;
+		try {
+			System.setOut(new PrintStream(myOut));
+			twoClub.show();
+			threeClub.show();
+			fourClub.show();
+			fiveClub.show();
+			sixClub.show();
+			sevenClub.show();
+			eightClub.show();
+			nineClub.show();
+			tenClub.show();
+			jackClub.show();
+			queenClub.show();
+			kingClub.show();
+			aceClub.show();
+			printResult = myOut.toString();
+			myOut.close();	
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.setOut(stdOut);
+		String expectedResult = 
+		 "2:CLUB " +	
+		 "3:CLUB " +		
+		 "4:CLUB " +		
+		 "5:CLUB " +		
+		 "6:CLUB " +		
+		 "7:CLUB " +		
+		 "8:CLUB " +		
+		 "9:CLUB " +		
+		"10:CLUB " +		
+		 "J:CLUB " +		
+		 "Q:CLUB " +		
+		 "K:CLUB " +		
+		 "A:CLUB " ;
+		assertEquals(expectedResult, printResult);
 	}
 	@Test
 	void testToString() {
@@ -73,11 +140,18 @@ class CardTest {
 		Card fiveClub = new Card(Suit.CLUB, 5);
 		Card anotherFiveClub = new Card(Suit.CLUB, 5);
 		Card fiveSpade = new Card(Suit.SPADE, 5);
+		Card sixClub = new Card(Suit.CLUB, 6);
 		String sFiveClub = "5:CLUB";
+		// reflexive
 		assertTrue(fiveClub.equals(fiveClub));
+		// symmetric
 		assertTrue(fiveClub.equals(anotherFiveClub));
 		assertTrue(anotherFiveClub.equals(fiveClub));
+		// different values
 		assertFalse(fiveClub.equals(fiveSpade));
+		// different suits
+		assertFalse(fiveClub.equals(sixClub));
+		// different types
 		assertFalse(fiveClub.equals(sFiveClub));
 	}
 	@Test
