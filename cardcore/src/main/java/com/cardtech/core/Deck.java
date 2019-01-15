@@ -22,7 +22,6 @@ import java.util.List;
 public class Deck implements Iterable<Card> {
 
 	private List<Card> cards = new LinkedList<>();
-	public static final int STANDARD_DECK_SIZE = 52;
 
  /**
   * Create a new deck in "standard" order, i.e., ordered by suit.

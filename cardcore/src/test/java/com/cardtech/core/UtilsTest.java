@@ -23,7 +23,7 @@ class UtilsTest {
 	void testCreateDeckSuitOrder() {
 		Deck deck = Utils.createDeckSuitOrder();
 		System.out.println("testCreateDeckSuitOrder()");
-		assertEquals(Deck.STANDARD_DECK_SIZE, deck.getSize());
+		assertEquals(Utils.STANDARD_DECK_SIZE, deck.getSize());
 		for (Suit s : Suit.values()) {
 			for (int i = TWO.getValue(); i <= ACE.getValue(); i++) {
 				Card c = deck.removeCard(TOP_CARD);
@@ -61,7 +61,7 @@ class UtilsTest {
 		int count = 3;
 		Deck deck = Utils.createMultipleDecksSuitOrder(count);
 		System.out.println("testCreateMultipleDecksSuitOrder");
-		assertEquals(Deck.STANDARD_DECK_SIZE * count, deck.getSize());
+		assertEquals(Utils.STANDARD_DECK_SIZE * count, deck.getSize());
 		for (int i = 0; i < count; i++) {
 			for (Suit s : Suit.values()) {
 				for (int j = TWO.getValue(); j <= ACE.getValue(); j++) {
@@ -88,7 +88,7 @@ class UtilsTest {
 	void testCreateDeckRankOrder() {
 		Deck deck = Utils.createDeckRankOrder();
 		System.out.println("testCreateDeckRankOrder()");
-		assertEquals(Deck.STANDARD_DECK_SIZE, deck.getSize());
+		assertEquals(Utils.STANDARD_DECK_SIZE, deck.getSize());
 		for (int i = TWO.getValue(); i <= ACE.getValue(); i++) {
 			for (Suit s : Suit.values()) {
 				Card c = deck.removeCard(TOP_CARD);

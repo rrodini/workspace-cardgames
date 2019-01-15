@@ -11,6 +11,10 @@ import java.util.List;
  * various kinds of decks.
  */
 public class Utils {
+	/**
+	 * Standard deck size.  Use this to avoid hardcoding 52.
+	 */
+	public static final int STANDARD_DECK_SIZE = 52;
 
 	/**
 	 * Create 52 card deck by suit.

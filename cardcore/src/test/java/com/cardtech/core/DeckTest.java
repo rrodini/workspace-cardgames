@@ -43,7 +43,7 @@ public class DeckTest {
 		// line below forces coverage of constructor w/ no arguments.
 		deck = new Deck();
 		System.out.println("deckInSuitOrder()");
-		assertEquals(Deck.STANDARD_DECK_SIZE, deck.getSize());
+		assertEquals(Utils.STANDARD_DECK_SIZE, deck.getSize());
 		for (Suit s : Suit.values()) {
 			for (int i = TWO.getValue(); i <= ACE.getValue(); i++) {
 				Card c = deck.removeCard(TOP_CARD);
@@ -80,7 +80,7 @@ public class DeckTest {
 		System.out.println("deckInRankOrder()");
 		// Shadow the global "standard" deck.
 		Deck deck1 = new Deck(DeckOrder.RANK_ORDER);
-		assertEquals(Deck.STANDARD_DECK_SIZE, deck1.getSize());
+		assertEquals(Utils.STANDARD_DECK_SIZE, deck1.getSize());
 		for (int i = TWO.getValue(); i <= ACE.getValue(); i++) {
 			for (Suit s : Suit.values()) {
 				Card c = deck1.removeCard(TOP_CARD);
@@ -123,7 +123,7 @@ public class DeckTest {
 		deck.shuffle();
 		// how to test for randomness?  Measuring the distance of each card from its unshuffle position is too hard to do. So...
 		int counter = 0;
-		assertEquals(Deck.STANDARD_DECK_SIZE, deck.getSize());
+		assertEquals(Utils.STANDARD_DECK_SIZE, deck.getSize());
 		Iterator<Card> iter = deck.iterator();
 		while (iter.hasNext()) {
 			@SuppressWarnings("unused")
@@ -134,14 +134,14 @@ public class DeckTest {
 			counter++;
 		}
 		assertEquals(0, deck.getSize());
-		assertEquals(Deck.STANDARD_DECK_SIZE, counter);
+		assertEquals(Utils.STANDARD_DECK_SIZE, counter);
 	}
 	//@Disabled
 	@Test
 	public void testCuttingTheDeck() {
 		System.out.println("testCuttingTheDeck()");
 		deck.cut();
-		assertEquals(Deck.STANDARD_DECK_SIZE, deck.getSize());
+		assertEquals(Utils.STANDARD_DECK_SIZE, deck.getSize());
 		Suit [] testOrder = {HEART, SPADE, CLUB, DIAMOND};
 		for (Suit s: testOrder) {
 			for (int i = TWO.getValue(); i <= ACE.getValue(); i++) {
@@ -337,7 +337,7 @@ public class DeckTest {
 	public void testShowTheDeckOfCards() {
 		System.out.println("testShowTheDeckOfCards()");
 		deck.show();
-		assertEquals(Deck.STANDARD_DECK_SIZE, deck.getSize());
+		assertEquals(Utils.STANDARD_DECK_SIZE, deck.getSize());
 	}
 	//@Disabled
 	@Test
@@ -404,7 +404,7 @@ public class DeckTest {
 		System.out.println("testDeckGetDeck()");
 		List<Card> cards = deck.getDeck();
 		assertTrue(cards != null);
-		assertEquals(Deck.STANDARD_DECK_SIZE, cards.size());
+		assertEquals(Utils.STANDARD_DECK_SIZE, cards.size());
 	}
 	@Test
 	public void testSizeAndEmpty() {
