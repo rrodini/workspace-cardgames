@@ -10,18 +10,22 @@ import static com.cardtech.core.Rank.TWO;
 import static com.cardtech.core.Rank.ACE;
 
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
-
+/**
+ * Deck object is a deck of Card objects.  A deck is a List and implemented by LinkedList.
+ * There are LOTS of methods to assist the card trick DSL.
+ *
+ */
 public class Deck implements Iterable<Card> {
 
-	private List<Card> cards = new ArrayList<>();
+	private List<Card> cards = new LinkedList<>();
 	public static final int STANDARD_DECK_SIZE = 52;
 
  /**
-  * Create a new deck in "standard" order, i.e. ordered by suit.
+  * Create a new deck in "standard" order, i.e., ordered by suit.
   */
 	public Deck() {
 		createDeckSuitOrder();
@@ -40,7 +44,7 @@ public class Deck implements Iterable<Card> {
 		}
 	}
  /**
-  *  create 52 card deck by suit.
+  *  Create 52 card deck by suit.
   */
 	private void createDeckSuitOrder() {
 		createSuit(Suit.CLUB);
@@ -70,10 +74,11 @@ public class Deck implements Iterable<Card> {
 		}
 	}
 
-/**
- * Let the caller create the cards for the deck (DI here).	
- */
 	//@Inject
+/**
+ * Let the caller create the cards for the deck (DI here).
+ * @param cards to use for deck.	
+ */
 	public Deck(List<Card> cards) {
 		this.cards = cards;
 	}
@@ -103,8 +108,8 @@ public class Deck implements Iterable<Card> {
 		int headStart = 0;
 		int headLen = size / 2;
 		int tailStart = headLen;
-		ArrayList<Card> head = new ArrayList<Card>(cards.subList(headStart, headLen));
-		ArrayList<Card> tail = new ArrayList<Card>(cards.subList(tailStart, size));
+		List<Card> head = new LinkedList<Card>(cards.subList(headStart, headLen));
+		List<Card> tail = new LinkedList<Card>(cards.subList(tailStart, size));
 		cards.clear();
 		cards.addAll(tail);		
 		cards.addAll(head);
@@ -113,7 +118,7 @@ public class Deck implements Iterable<Card> {
  /**
   * Deal cards from the top of the deck.
   * @param count - how many cards to deal (usually just one)
-  * @return an ArrayList of Card.
+  * @return a List of Card.
   * 
   * @throws IllegalStateException when deck doesn't contain enough cards for deal.
   */
@@ -125,7 +130,7 @@ public class Deck implements Iterable<Card> {
 			}
 			d[i] = cards.remove(0);
 		}
-		return new ArrayList<Card>(Arrays.asList(d));
+		return new LinkedList<Card>(Arrays.asList(d));
 	}
 	
 	 /**
@@ -133,7 +138,7 @@ public class Deck implements Iterable<Card> {
 	  * This method is only used for card tricks.
 	  * @param count - how many cards to deal (usually just one)
 	  * @param pos - DEAL_FROM_TOP or DEAL_FROM_BOTTOM
-	  * @return an ArrayList of Card.
+	  * @return an List of Card.
 	  * 
 	  * @throws IllegalStateException when deck doesn't contain enough cards for deal.
 	  */
@@ -148,7 +153,7 @@ public class Deck implements Iterable<Card> {
 			} else {
 				throw new IllegalArgumentException("Unexpected value: " + pos);
 			}
-			return new ArrayList<Card>(Arrays.asList(d));			
+			return new LinkedList<Card>(Arrays.asList(d));			
 		}
 		
  /**
@@ -186,7 +191,7 @@ public class Deck implements Iterable<Card> {
  /**
   * Remove the specified card from the deck wherever it occurs.
   * This requires the Card class to implement an 'equals' method.
-  * @param c - identity of card to remove
+  * @param c identity of card to remove
   * @return the card removed.
   * 
   * @throws IllegalStateException if the card is not in the deck.
@@ -202,7 +207,7 @@ public class Deck implements Iterable<Card> {
 
  /**
   * Remove a card from the top, bottom, or a random position in the deck.
-  * @param how - enum value indicating position
+  * @param how enum value indicating position
   * @return the card removed.
   * 
   * @throws IllegalArgumentException when unexpected parameter value is passed.
@@ -234,7 +239,7 @@ public class Deck implements Iterable<Card> {
   * @throws IllegalStateException if any card in the list is not in the deck.
   */
 	public List<Card> removeCard(List<Card> cardsToRemove) {
-		ArrayList<Card> cardsRemoved = new ArrayList<Card>(); 
+		List<Card> cardsRemoved = new LinkedList<Card>(); 
 		for (Card c: cardsToRemove) {
 			removeCard(c);
 			cardsRemoved.add(c);
@@ -244,8 +249,8 @@ public class Deck implements Iterable<Card> {
 	
  /**
   * Add a list of cards to the deck placing them either on top or the bottom of the deck. 
-  * @param list - List of cards to add
-  * @param how - enum indicating how to add
+  * @param list List of cards to add
+  * @param how enum indicating how to add
   * 
   * @throws IllegalArgumentException when unexpected enum value is passed.
   */
@@ -275,6 +280,7 @@ public class Deck implements Iterable<Card> {
 
    /**
     * Return the deck.	
+    * @return list of cards
     */
 	public List<Card> getDeck() {
 		return cards;

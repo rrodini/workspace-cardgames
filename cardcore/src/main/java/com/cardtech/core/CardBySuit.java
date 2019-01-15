@@ -7,10 +7,10 @@ import com.cardtech.core.Card;
  * CardBySuitComparator is a comparator that gives a total
  * ordering of all 52 cards by using the suit ordinal value.
  *
- * This comparator is needed so that a TreeMap<Card,Integer>
+ * This comparator is needed so that a TreeMap&lt;Card,Integer&gt;
  * can be used in the WarGame implementation.
  */
-public class CardBySuitComparator implements Comparator<Card> {
+public class CardBySuit implements Comparator<Card> {
 
 	@Override
 	public int compare(Card c1, Card c2) {

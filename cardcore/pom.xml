@@ -37,6 +37,20 @@
           </dependency>
         </dependencies>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.0.1</version>
+        <configuration>
+           <show>private</show>
+           <nohelp>true</nohelp>
+           <aggregate>true</aggregate>
+           <charset>UTF-8</charset>
+           <encoding>UTF-8</encoding>
+           <docencoding>UTF-8</docencoding>
+           <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
+        </configuration> 
+      </plugin>
     </plugins>
   </build>
   <dependencies>

@@ -4,11 +4,11 @@ package com.cardtech.core;
  */
 public enum DeckOrder {
  /**
-  * SUIT_ORDER is the standard order.  All of the clubs in ascending order followed by all hearts...
+  * The standard order.  All of the clubs in ascending order followed by all hearts...
   */
 	SUIT_ORDER, 
  /**
-  * RANK_ORDER is non-standard but useful for testing.  All of the twos followed by all threes...
+  * Non-standard but useful for testing.  All of the twos followed by all threes...
   */
 	RANK_ORDER,
 }

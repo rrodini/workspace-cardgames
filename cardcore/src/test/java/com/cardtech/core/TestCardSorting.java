@@ -11,9 +11,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.cardtech.core.Card;
-import com.cardtech.core.CardByRankComparator;
+import com.cardtech.core.CardByRank;
 import com.cardtech.core.Suit;
-import com.cardtech.core.CardBySuitComparator;
+import com.cardtech.core.CardBySuit;
 import com.cardtech.core.Deck;
 
 class TestCardSorting {
@@ -59,7 +59,7 @@ class TestCardSorting {
 	@Test
 	void testTreeMapUsingComparator() {
 		System.out.println("testTreeMapUsingComparator()");
-		CardBySuitComparator cardComp = new CardBySuitComparator();
+		CardBySuit cardComp = new CardBySuit();
 		TreeMap<Card, Integer> tm = new TreeMap<Card, Integer>(cardComp);
 		Card c1 = new Card(Suit.CLUB, 2);
 		Card c2 = new Card(Suit.HEART, 2);
@@ -87,7 +87,7 @@ class TestCardSorting {
 		Deck deck = new Deck();
 		deck.shuffle();
 		List<Card> hand = deck.deal(52);
-		CardBySuitComparator orderBySuit = new CardBySuitComparator();
+		CardBySuit orderBySuit = new CardBySuit();
 		hand.sort(orderBySuit);
 		int count = 0;
 		for (Card card: hand) {
@@ -121,7 +121,7 @@ class TestCardSorting {
 		Deck deck = new Deck();
 		deck.shuffle();
 		List<Card> hand = deck.deal(52);
-		CardByRankComparator orderByRank = new CardByRankComparator();
+		CardByRank orderByRank = new CardByRank();
 		hand.sort(orderByRank);
 		int count = 0;
 		for (Card card: hand) {

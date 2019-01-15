@@ -8,7 +8,7 @@ import com.cardtech.core.Card;
  * ordering of all 52 cards by using the suit ordinal value.
  *
  */
-public class CardByRankComparator implements Comparator<Card> {
+public class CardByRank implements Comparator<Card> {
 
 	@Override
 	public int compare(Card c1, Card c2) {

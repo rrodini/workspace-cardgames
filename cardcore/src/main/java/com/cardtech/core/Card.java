@@ -4,7 +4,7 @@ import static com.cardtech.core.Rank.TWO;
 import static com.cardtech.core.Rank.ACE;
 
 /**
- * Card is an class with suit / value.  Typical value SIX_HEART which is, of course, is the six of hearts.
+ * Card is an object with suit &amp;  value.  Typical value is (HEART, 6) which is, of course, is the six of hearts.
  * There are no jokers -- just the 13 cards of each suit (clubs, hearts, diamonds, spades).
  *
  */
@@ -12,7 +12,11 @@ public final class Card implements Comparable<Card>{
 	// make the instance variables immutable.
 	private final Suit suit;
 	private final int value;
-	
+/**
+ * Construct a Card.	
+ * @param s suit.
+ * @param v numeric value.
+ */
 	public Card(Suit s, int v) {
 		// only accept 2 .. 14 for now
 		if (v < TWO.getValue() || v > ACE.getValue()) {
@@ -28,6 +32,7 @@ public final class Card implements Comparable<Card>{
  /**
   * Get the numeric value of the card.  This is needed because an enum provides an ordinal value for
   * each value, but we want each of the aces to have the same numeric value of 14.
+  * @return value of card.
   */
 	public int getValue() {
 		return value;
@@ -35,6 +40,7 @@ public final class Card implements Comparable<Card>{
 	
  /**
   * Get the suit of the card.	
+  * @return suit of card.
   */
 	public Suit getSuit() {
 		return suit;
@@ -48,7 +54,8 @@ public final class Card implements Comparable<Card>{
 	}
 
   /**
-   * Show the card "image."
+   * Get the card string.
+   * @return string value for card.
    */
 	public String toString() {
 		StringBuffer buf = new StringBuffer();
@@ -93,7 +100,7 @@ public final class Card implements Comparable<Card>{
 	/**
 	 * Implement equals as per "value equality."
 	 * @param o - Card to compared.
-	 * @return boolean true => card values are equal.
+	 * @return boolean true =&gt; card values are equal.
 	 */
 	@Override
 	public boolean equals(Object o) {

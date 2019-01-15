@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Utils.java - Utilities for cardcore classes. Mainly methods to construct
+ * Utilities for cardcore classes. Mainly methods to construct
  * various kinds of decks.
  */
 public class Utils {
@@ -63,6 +63,7 @@ public class Utils {
 
 	/**
 	 * Create a new deck in rank order. Useful for specific test cases.
+	 * @return deck in rank order.
 	 */
 	public static Deck createDeckRankOrder() {
 		List<Card> cards = new ArrayList<>();
