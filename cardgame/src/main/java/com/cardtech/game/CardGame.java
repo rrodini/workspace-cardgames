@@ -6,9 +6,9 @@ import java.util.List;
 import com.cardtech.core.Deck;
 
 /**
- * CardGame is the superclass for WarGame and PokerGame. <br/>
- * For the two games implemented the pattern (see GOF Template Pattern) for the game is simple: <br/>
- * 1. Construct the game <br/>
+ * CardGame is the superclass for WarGame and PokerGame. And Blackjack. <br/>
+ * The class implements the GOF Template Pattern as follows: <br/>
+ * 1. Construct the game subclass<br/>
  *    a) identify the number of players <br/>
  * 2. Initialize the game  <br/>
  *    a) shuffle the deck (optional for testing purposes) <br/>
@@ -17,7 +17,9 @@ import com.cardtech.core.Deck;
  * 4. Determine the winning hand <br/>
  */
 abstract public class CardGame {
-	
+ /**
+  * the number of players in the game.	
+  */
 	protected int noOfPlayers = 0;
  /**
   * players is the list of player objects participating in the game.  Although the
@@ -25,11 +27,8 @@ abstract public class CardGame {
   */
 	protected List<Player> players;
  /**
-  * hands represent the hands dealt to the players.  Rather than make them instance variables
-  * of the player object it's better to have them as instance variables of the game object.
-  * This permits many games to be played in parallel on a multi-core machine.
-  * 
-  * So hands is a "parallel" array to players.
+  * hands represent the hands dealt to the players. 
+  * So, hands is a "parallel" array to players.
   */
 	protected List<Hand> hands;
 	
@@ -40,19 +39,19 @@ abstract public class CardGame {
 	protected Deck deck;
  /**
   * This constructor constructs a standard deck.
-  * @param players - players in the game.
+  * @param players players in the game.
   */
 	public CardGame(Player... players) {
 		if (players.length == 0) {
 			throw new IllegalArgumentException("CardGame cannot have 0 players.");
 		}
-		initializeCardGame(players);
+		initialize(players);
 		deck = new Deck();	
 	}
  /**
   * This constructor is used for an artificially ordered deck
-  * @param deck - a deck in a specific order
-  * @param players - players in the game.
+  * @param deck a deck in a specific order
+  * @param players players in the game.
   */
 	public CardGame(Deck deck, Player... players) {
 		if (players.length == 0) {
@@ -61,16 +60,16 @@ abstract public class CardGame {
 		if (deck == null) {
 			throw new IllegalArgumentException("CardGame cannot have a null deck.");
 		}
-		initializeCardGame(players);
+		initialize(players);
 		this.deck = deck;		
 	}
 
 
  /**
   * initialize the CardGame by saving off the player objects.
-  * @param players - array of player objects
+  * @param players array of player objects
   */
-	private void initializeCardGame(Player... players) {
+	private void initialize(Player... players) {
 		this.players = new ArrayList<Player>(Arrays.asList(players));
 		// ATTENTION: Constructor below doesn't really allocate space for elements.
 		this.hands = new ArrayList<Hand>(players.length);
@@ -80,9 +79,9 @@ abstract public class CardGame {
 		}
 		noOfPlayers = players.length;
 	}
- /*
+ /**
   * This method represents the initialization needed for a card game.  For a random game "shuffle" should be true.
-  * @param shuffle - false means don't shuffle the deck before the deal.  true means shuffle (randomize) the deck before the deal.
+  * @param shuffle false means don't shuffle the deck before the deal.  true means shuffle (randomize) the deck before the deal.
   */
 	public abstract void initialize(boolean shuffle);
 	
@@ -93,7 +92,7 @@ abstract public class CardGame {
 
  /**
   * Determine the winner of the game.	
-  * @return player (object) that won the game.
+  * @return player player(s) that won the game. Plural in case of a tie.
   */
 	public abstract List<Player> getWinner();
 	

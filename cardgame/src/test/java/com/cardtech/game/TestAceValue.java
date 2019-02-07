@@ -21,7 +21,7 @@ class TestAceValue {
 
 	@Test
 	void testAceIsHigh() {
-		assertEquals(13, ACE_IS_HIGH.aceValue);
+		assertEquals(14, ACE_IS_HIGH.aceValue);
 	}
 
 	@Test
@@ -32,6 +32,7 @@ class TestAceValue {
 	@Test
 	void testEnum() {
 		for (AceValue ace: AceValue.values()) {
+			ace.getValue();
 			assertTrue( ace instanceof AceValue);
 		}
 	}

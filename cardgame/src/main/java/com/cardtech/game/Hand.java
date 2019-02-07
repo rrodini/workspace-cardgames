@@ -1,8 +1,9 @@
 package com.cardtech.game;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.cardtech.core.Card;
 
@@ -12,7 +13,7 @@ import com.cardtech.core.Card;
 public class Hand {
 
  /**
-  * An ArrayList is the representation chosen for a card hand. 
+  * A List is the representation chosen for a card hand. 
   */
 	protected List<Card> hand;
 	
@@ -21,11 +22,12 @@ public class Hand {
   * be a call to setHand() in the future. 
   */
 	protected Hand() {
-		hand = new ArrayList<Card>();
+		hand = new LinkedList<Card>();
 	}
 	
  /**
   * This constructor sets the cards in the hand. 
+  * @param hand cards for the hand.
   */
 	public Hand(List<Card> hand) {
 		this.hand = hand;
@@ -47,7 +49,7 @@ public class Hand {
 
  /**
   * Sort the cards in the hand.
-  * @param orderBy - a Card comparator.
+  * @param orderBy a Card comparator.
   */
 	protected void sort(Comparator<Card> orderBy) {
 		Collections.sort(hand, orderBy);
@@ -65,24 +67,28 @@ public class Hand {
   * Show the cards in the hand on the console.
   */
 	public String toString() {
-		StringBuilder sHand = new StringBuilder();
-		sHand.append("[");
-		for (int i = 0; i < hand.size(); i++) {
-			Card card = getCard(i);
-			sHand.append(card.toString());
-			if (i < hand.size()-1) {
-				sHand.append(",");
-			}
-		}
-		return sHand.append("]").toString();
+// OLD
+//		StringBuilder sHand = new StringBuilder();
+//		sHand.append("[");
+//		for (int i = 0; i < hand.size(); i++) {
+//			Card card = getCard(i);
+//			sHand.append(card.toString());
+//			if (i < hand.size()-1) {
+//				sHand.append(",");
+//			}
+//		}
+//      return sHand.append("]").toString();
+		String sHand = hand.stream().map( c -> c.toString())
+				           .collect(Collectors.joining(",", "[", "]"));
+		return sHand;
 	}
 		
   /**
    * Get the card at the index position.  This is a "read" interface and doesn't represent
    * removal of the card from the hand.
    * 
-   * @param which - index of card within hand.
-   * 
+   * @param which index of card within hand.
+   * @return card that was requested.
    * @throws IllegalArgumentException when bad index is passed.
    */
 	public Card getCard(int which) {
@@ -95,10 +101,10 @@ public class Hand {
     * Does the hand contain the given card?
     * Note: relies on Card.equals().
     * @param which card sought.
-    * @return true => yes hand does contain card.
+    * @return true =&gt; yes hand does contain card.
     */
 	public boolean contains(Card which) {
-		return hand.contains(which);
+		return which == null ? false : hand.contains(which);
 	}
   /**
    * Get the current number of cards in the hand.
@@ -112,6 +118,9 @@ public class Hand {
     * @param c card to add.
     */
 	public void addCard(Card c) {
+		if (c == null) {
+			return;
+		}
 		hand.add(c);
 	}
 	
