@@ -18,7 +18,7 @@ public class PokerGame extends CardGame {
 	// These values are after the game is played.
 	List<Player> winners = null;
 	PokerHand winningHand = null;
-	PokerRank winningRank = null;
+	PokerRankWithHighCards winningRank = null;
 	
 /**
  * Construct a poker game with the given players.
@@ -81,6 +81,8 @@ public class PokerGame extends CardGame {
 		// Typically this list has a single element, but ties are possible in poker, hence the value is a list.
 		PokerHandMultiMap treeMap = new PokerHandMultiMap();
 		for (int i=0; i < noOfPlayers; i++) {
+			// Here is where each hand gets ranked (showdown)!  This action is implicit in the
+			// use of a TreeMap which requires Comparable<Hand> to be implemented.
 			treeMap.put((PokerHand) hands.get(i), i);
 		}
 		
@@ -100,7 +102,7 @@ public class PokerGame extends CardGame {
 		// This is the winning hand. 
 		winningHand = winningEntry.getKey();
 		// First getRank() returns rank with high cards.  Second getRank() is just the PokerRank.
-		winningRank = winningHand.getRank().getRank();
+		winningRank = winningHand.getRank();
 		// Now get the list of the winning players.
 		List<Integer> winningIndexes = winningEntry.getValue();
 		int noWinners = winningIndexes.size();
@@ -147,7 +149,7 @@ public class PokerGame extends CardGame {
 /**
  * @return the poker rank of the winning hand.
  */
-	public PokerRank getWinningRank() {
+	public PokerRankWithHighCards getWinningRank() {
 		return winningRank;
 	}
 }

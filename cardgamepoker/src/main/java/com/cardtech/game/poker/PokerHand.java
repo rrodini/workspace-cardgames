@@ -12,14 +12,14 @@ import com.cardtech.game.Hand;
 public class PokerHand extends Hand implements Comparable<PokerHand> {
 
     final int POKERHAND_COUNT = 5;
-	PokerRankWithHighCards rank;
+	private PokerRankWithHighCards rank;
 	
 	// This constructor doesn't reflect dealing a card to each player and repeating.
  /**
   * Construct a poker hand given the cards for the hand.
   * @param hand - cards of the hand.
   */
-	public PokerHand(ArrayList<Card> hand) {
+	public PokerHand(List<Card> hand) {
 		super(hand);
 		checkCardCount(hand);		
 	}
@@ -34,11 +34,14 @@ public class PokerHand extends Hand implements Comparable<PokerHand> {
   * Set the cards of the poker hand.  Necessary for testing.
   * @param hand - specifically cards of the hand.
   */
-	public void setHand(List<Card> hand) {
-		this.hand = hand;
-		checkCardCount(hand);		
-	}
-	
+//	public void setHand(List<Card> hand) {
+//		this.hand = hand;
+//		checkCardCount(hand);		
+//	}
+ /**
+  * Check that there are 5 cards in the hand.	
+  * @param hand
+  */
 	private void checkCardCount(List<Card> hand) {		
 		if (hand.size() != POKERHAND_COUNT) {
 			throw new IllegalArgumentException("Poker hand must have 5 cards.  This hand's count: " + hand.size());

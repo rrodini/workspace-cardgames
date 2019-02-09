@@ -45,9 +45,6 @@ public class PokerRanker {
 		}
 		if (null == rank) {
 			throw new IllegalStateException("Can't determine rank of " + hand.toString());
-//			System.out.println("PokerRank underdetermined");
-//			hand.show();
-//			System.exit(1);
 		}
 		return new PokerRankWithHighCards(rank, highCard);
 	}
