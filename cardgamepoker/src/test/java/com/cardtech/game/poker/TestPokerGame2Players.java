@@ -49,7 +49,7 @@ public class TestPokerGame2Players {
 		System.out.printf("Winner is %s\n", winners.get(0));
 		System.out.printf("Winning hand rank %s\n", game.winningRank);
 		assertEquals( player1, winners.get(0),"Player 1 should win");
-		assertEquals( PokerRank.FLUSH, game.getWinningRank(), "FLUSH is winning rank");
+		assertEquals( PokerRank.FLUSH, game.getWinningRank().getRank(), "FLUSH is winning rank");
 		assertEquals( 2, game.getHands().size(), "Two hands");
 	}
 	
@@ -74,7 +74,7 @@ public class TestPokerGame2Players {
 		System.out.printf("Winning hand rank %s\n", game.winningRank);
 		assertEquals( player0, winners.get(0), "Player 1 should win");
 		assertEquals( player1, winners.get(1), "Player 1 should win");
-		assertEquals( PokerRank.TWO_PAIR, game.getWinningRank(), "TWO_PAIR is winning rank");
+		assertEquals( PokerRank.TWO_PAIR, game.getWinningRank().getRank(), "TWO_PAIR is winning rank");
 		assertEquals( 2, game.getHands().size(), "Two hands");
 	}
 	
@@ -101,7 +101,7 @@ public class TestPokerGame2Players {
 		System.out.printf("Winner is %s\n", winners.get(0));
 		System.out.printf("Winning hand rank %s\n", game.winningRank);
 		assertEquals( players[8], winners.get(0), "Player 8 should win");
-		assertEquals( PokerRank.HIGH_CARD, game.getWinningRank(), "HIGH_CARD is winning rank");
+		assertEquals( PokerRank.HIGH_CARD, game.getWinningRank().getRank(), "HIGH_CARD is winning rank");
 		assertEquals( 10, game.getHands().size(), "Nine hands");
 	}
 }
