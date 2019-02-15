@@ -76,7 +76,7 @@ public class TestWarGame4Players {
 		for (int i=0; i < winners.size(); i++) {
 			assertEquals( players[i], winners.get(i), "Player should win game");			
 		}
-		assertEquals( 1, game.rounds, "Only one round in this game");
+		assertEquals( 1, game.getRounds(), "Only one round in this game");
 	}
 
 	

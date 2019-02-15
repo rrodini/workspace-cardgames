@@ -74,7 +74,7 @@ public class TestWarGame2Players {
 			System.out.println("Exception indicates Player0 has been elminated");
 		}
 		assertEquals( player1, game.getWinner().get(0), "Player1 should win game");
-		System.out.printf("War game lasted %d rounds%n", game.rounds);
+		System.out.printf("War game lasted %d rounds%n", game.getRounds());
 	}
 
 	

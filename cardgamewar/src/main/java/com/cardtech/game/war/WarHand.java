@@ -32,13 +32,12 @@ public class WarHand extends Hand {
 	public WarHand() {
 		hand = new LinkedList<Card>();
 		downCards = new LinkedList<Card>();
-		upCards = new LinkedList<Card>();
-		
+		upCards = new LinkedList<Card>();		
 	}
 	
  /**
   * This should only be called during the initial deal.
-  * @param c - dealt card.  Add it to the player's hand.
+  * @param c dealt card.  Add it to the player's hand.
   */
 	public void addCard(List<Card> c) {
 		if (c.size() != 1) {
@@ -49,7 +48,7 @@ public class WarHand extends Hand {
 	
  /**
   * This method should only be called following a war battle.
-  * @param cards - that were won.  Add them as-is to the end of the player's hand.
+  * @param cards that were won.  Add them as-is to the end of the player's hand.
   */
 	public void addCards(LinkedList<Card> cards) {
 		hand.addAll(cards);
@@ -67,7 +66,7 @@ public class WarHand extends Hand {
   * A war has broken out and we should play 3 down cards. Since this might exhaust the 
   * cards in a player's hand, we don't let this happen so that the player can still 
   * play an up card.
-  * @param count - number of down cards.  A variable in case the rules are varied.
+  * @param count number of down cards.  A variable in case the rules are varied.
   */
 	public void playDownCard(int count) {
 		int i = 0;
@@ -81,7 +80,7 @@ public class WarHand extends Hand {
 	
  /**
   * Just move the top hand card to the upCards pile.  getUpCard() will return it.
-  * @param wc
+  * @param wc war context.
   */
 	public void playUpCard(WarRoundContext wc) {
 		if (isHandEmpty()) {

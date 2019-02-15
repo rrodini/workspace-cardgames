@@ -10,7 +10,7 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import com.cardtech.core.Card;
-import com.cardtech.core.CardBySuitComparator;
+import com.cardtech.core.CardBySuit;
 import com.cardtech.core.Deck;
 import com.cardtech.game.CardGame;
 import com.cardtech.game.Hand;
@@ -29,12 +29,12 @@ public class WarGame extends CardGame {
   * in a very unusual (impossible?) case the game can end in an absolute draw.
   */
 	// Used to track the identity of the remaining players
-	ArrayList<Integer> activePlayers;
+	private List<Integer> activePlayers;
  /**
   * Count the top level rounds in this game of war.  Basically this is the number of times the "up" cards
   * are played by each player *outside* the context of war.	
   */
-	int rounds = 0; 
+	private int rounds = 0; 
 	
  /**
   * Construct a WarGame with the given player objects.
@@ -115,10 +115,10 @@ public class WarGame extends CardGame {
 	}
 	
  /**
-  * Play a round.  Usually this method would be private but it's public for testing purposes.
-  * @param wc - used to detect nested war rounds.
+  * Play a round.  Usually this method would be private but it's package private for testing purposes.
+  * @param wc used to detect nested war rounds.
   */
-	public void playRound(WarRoundContext wc) {
+	void playRound(WarRoundContext wc) {
 		boolean tie = true;
 		int result = 0;
 		while (tie && !gameIsOver() ) {
@@ -132,73 +132,19 @@ public class WarGame extends CardGame {
 			}
 		}
 	}
-	
- /**
-  * Buggy:  See new implementation below.
-  */
-//	private int playUpCard1(WarRoundContext wc) {
-//		if (wc == NO_WAR) {
-//			rounds++;
-//		}
-//		int which = 0;
-//		TreeMap<Card, Integer> tm = new TreeMap<Card, Integer>();
-//		for (Hand player : hands) {
-//			((WarHand) player).playUpCard(wc);
-//			Card c = ((WarHand) player).getUpCard();
-//			//	This will help keep track of who wins the hand
-//			// It relies on fact that CardComparator object gives a complete ordering of the cards.
-//			tm.put(c, which);
-//			which++;
-//		}
-//		// show the cards just for debugging
-//		showUpCards();
-//		Set<Card> keySet = tm.descendingKeySet();
-//		Card lastCard = null;
-//		for (Card key : keySet){
-//			if (null == lastCard) {
-//				// first time through this loop
-//				// save the first key (Card) to see if the next card ties
-//				lastCard = key;
-//				// save the player with the highest card.  If there are no
-//				// ties then this is the winner.
-//				which = tm.get(key);
-//			} else {
-//				if (lastCard.getValue() == key.getValue()) {
-//					// There's at least one tie so bail out now.
-//					return -1;
-//				}
-//			}
-//		}
-//		return which;
-//	}
   /**
-   * CardCompartor exists just for PlayUpCard.	
-   *
+   * Evaluate the up card from the players for this round.	When things are simple
+   * the high card wins.  But when there is a tie, then a round of "war" begins.
+   * In this implementation, just two players can start war.
+   * @param wc in the middle of a war round?
+   * @return -1 if war has begun, otherwise the index of the winning player.
    */
-//	private class CardBySuitComparator implements Comparator<Card> {
-//
-//		@Override
-//		public int compare(Card c1, Card c2) {
-//			int val1 = c1.getValue();
-//			int val2 = c2.getValue();
-//			int suit1 = c1.getSuit().ordinal();
-//			int suit2 = c2.getSuit().ordinal();
-//			// size should be 4 since there are 4 suits.
-//			int size = Suit.values().length;
-//			int total1 = val1 * size + suit1;
-//			int total2 = val2 * size + suit2;
-//			// no danger of overflow here since the numbers are small.
-//			return total1 - total2;
-//		}
-//		
-//	}
-	
 	private int playUpCard(WarRoundContext wc) {
 		if (wc == NO_WAR) {
 			rounds++;
 		}
 		int which = 0;
-		CardBySuitComparator cardComp = new CardBySuitComparator();
+		CardBySuit cardComp = new CardBySuit();
 		TreeMap<Card, Integer> tm = new TreeMap<Card, Integer>(cardComp);
 		for (Hand player : hands) {
 			((WarHand) player).playUpCard(wc);
@@ -305,17 +251,20 @@ public class WarGame extends CardGame {
   * At this point some players may have no cards and should be removed from the game.
   */
 	private void eliminateEmptyHands() {
-		int which = 0;
-		for (Hand player : hands) {
-			int count = ((WarHand) player).getHandCount();
-			if (count == 0) {
-// debug statement				
-System.out.println("Eliminating p" + activePlayers.get(which));
-				players.remove(which);
-				hands.remove(which);
-				activePlayers.remove(which);
-			}
-			which++;
+			int which = 0;
+			// must use an iterator so that remove() on hand works.
+			Iterator<Hand> iter = hands.iterator();
+			while (iter.hasNext()) {
+				WarHand hand = (WarHand) iter.next();
+				int count = hand.getHandCount();
+				if (count == 0) {
+	// debug statement				
+	System.out.println("Eliminating p" + activePlayers.get(which));
+					players.remove(which);
+					iter.remove();
+					activePlayers.remove(which);
+				}
+				which++;
 		}
 // debug statement				
 System.out.print("Active: ");
@@ -331,7 +280,7 @@ System.out.println();
   * @param player object
   * @return player's hand
   */
-	public WarHand getPlayerHand(Player player) {
+	WarHand getPlayerHand(Player player) {
 		int which = players.indexOf(player);
 		if (which < 0) {
 			throw new IllegalStateException("Player cannot be found: " + player);
@@ -343,7 +292,7 @@ System.out.println();
   * Get the number of active players.  Used for testing only.
   * @return number of active players.
   */
-	public int getActivePlayerCount() {
+	int getActivePlayerCount() {
 		return activePlayers.size();
 	}
 
@@ -364,5 +313,11 @@ System.out.println();
 		//winner.setNewRoundsToAWin(rounds);
 		return winners;
 	}
-	
+  /**
+   * Get the number of rounds played.
+   * @return number or rounds.
+   */
+	int getRounds() {
+		return rounds;
+	}
 }
