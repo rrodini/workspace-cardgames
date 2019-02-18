@@ -5,26 +5,42 @@ import java.util.List;
 import com.cardtech.core.Card;
 /**
  * BJDealerHand class represents the dealer's hand.
- * Not sure if this is a specialization of BJHand or not.
  */
 public class BJDealerHand extends BJHand {
 	private boolean isDownCardVisible = false;
-	
-	public BJDealerHand(List<Card> cards) {
+  /**
+   * Create the dealers hand with the given cards.
+   * For test purposes only.	
+   * @param cards given to the dealer.
+   */
+	BJDealerHand(List<Card> cards) {
 		super(cards);
 	}
-	
-	public BJDealerHand() {
+  /**
+   * Create an empty dealer hand.	
+   */
+	BJDealerHand() {
 		super();
 	}
-	public Card getUpCard() {
+  /** 
+   * Get the dealer's up card.	
+   * @return dealer's up card.
+   */
+	Card getUpCard() {
 		return getCard(0);
 	}
-	
-	public void showDownCard() {
+  /**
+   * At this point in the game, it's okay to "show" (via toString())
+   * the diealer's down card.
+   */
+	void showDownCard() {
 		isDownCardVisible = true;
 	}
-	
+  /**
+   * Get the string that represents the dealer's hand.
+   * While cards are still being dealt to the player, the
+   * dealers down card should not be shown.
+   */
 	@Override
 	public String toString() {
 		String handString = super.toString();

@@ -28,23 +28,38 @@ public class BJHandValue {
 		this.lowValue = lowValue;
 		this.highValue = highValue;
 	}
-	
+	/**
+	 * Get the firmness of the hand.
+	 * @return SOFT or HARD indicator.
+	 */
 	public Firmness getFirmness() {
 		return firmness;
 	}
-
+	/**
+	 * Get the short summary of the hand value.
+	 * @return UNDER21, EXACTLY21, OVER21 indicator.
+	 */
 	public Precis getPrecis() {
 		return precis;
 	}
-
+    /**
+     * Get the number of aces in the hand.
+     * @return number of aces.
+     */
 	public int getAceCount() {
 		return aceCount;
 	}
-
+	/**
+	 * Get the low value of a soft hand.
+	 * @return low value of a soft hand.
+	 */
 	public int getLowValue() {
 		return lowValue;
 	}
-
+	/**
+	 * Get the high value of a soft hand.
+	 * @return high value of a soft hand.
+	 */
 	public int getHighValue() {
 		return highValue;
 	}

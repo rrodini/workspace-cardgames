@@ -15,7 +15,7 @@ import com.cardtech.game.CardGame;
 import com.cardtech.game.Player;
 
 public class BJGame extends CardGame {
-	// a "natural" is a ACE plus 10 card on 2nd card.
+	// a "natural" is a ACE plus any "10" card.
 	boolean natural = false;
 	List<Player> winners = new ArrayList<>();
    /**
@@ -29,7 +29,7 @@ public class BJGame extends CardGame {
 	}
    /**
     * This constructor constructs a blackjack game with the players and a deck.
-    * The desk usually is multiple standard 52 card decks.
+    * The desk usually is multiple 52 card decks.
     * @param deck deck of cards for the game.
     * @param players array of players.  The last player is the dealer by convention.
     */
@@ -38,13 +38,18 @@ public class BJGame extends CardGame {
 		super(deck, players);
 		processPlayers(players);
 	}
+   /**
+    * processPlayers initializes each player's hand (remember parallel arrays)
+    * and sets the last player's (the dealer) hand to the dealer's hand.	
+    * @param players
+    */
 	private void processPlayers(BJPlayer... players) {
 		int num = players.length;
 		// the last player is the dealer with his own strategy.
 		// the next line changes the type from Player => BJDealer.
 		//super.players.set(num - 1, new BJDealer("dealer")) ;
 		// this is what the game framework wants. 
-		// now sure this is the best implementation.
+		// not sure this is the best implementation.
 		for (int i = 0; i < num ; i++) {
 			hands.set(i, new BJPlayerHand());
 		}
@@ -62,7 +67,8 @@ public class BJGame extends CardGame {
 		}
 	}
    /**
-    * play plays the game of blackjack.
+    * play the game of blackjack.  The rules were taken from 
+    * various blackjack websites.
     */
 	@Override
 	public void play() {
@@ -105,10 +111,10 @@ System.out.println("Evaluate Naturals");
     */
 	private void dealFirstCard() {
 		int num = 0;
-		System.out.println("Dealing 1st card:");
+System.out.println("Dealing 1st card:");
 		for (Player player: players) {
 			dealCardToPlayer(num);
-System.out.printf("p%d hand: %s\n", num, hands.get(num).toString());
+System.out.printf("%10s hand: %s\n", player, hands.get(num));
 			num++;
 		}
 	}
@@ -117,11 +123,11 @@ System.out.printf("p%d hand: %s\n", num, hands.get(num).toString());
 	*/
 	private void dealSecondCard() {
 		int num;
-		System.out.println("Deal 2nd card:");
+System.out.println("Deal 2nd card:");
 		num = 0;
 		for (Player player: players) {
 			dealCardToPlayer(num);
-System.out.printf("p%d hand: %s\n", num, hands.get(num).toString());
+System.out.printf("%10s hand: %s\n", player, hands.get(num));
 			num++;
 		}
 	}
@@ -145,7 +151,7 @@ System.out.printf("p%d hand: %s\n", num, hands.get(num).toString());
     * @param playerNo player's number.
     */
 	private void dealCardsToPlayerTilOutcome(int playerNo) {
-System.out.printf("Player: %s\n", players.get(playerNo).toString());
+System.out.printf("Player: %s\n", players.get(playerNo));
 		BJPlayer player = (BJPlayer) players.get(playerNo);
 		BJStrategy strat = player.getStrategy();
 		BJHand hand = (BJHand) hands.get(playerNo);
@@ -155,13 +161,13 @@ System.out.printf("Player: %s\n", players.get(playerNo).toString());
 			int dealerNo = hands.size() - 1;
 			int response = strat.hit((BJPlayerHand) hands.get(playerNo),(BJDealerHand) hands.get(dealerNo));
 			if (response == H) {
-System.out.printf("p%d response: HIT\n", playerNo);
+System.out.printf("%5s response: HIT\n", " ");
 				dealCardToPlayer(playerNo);
 			} else if (response == S) {
-System.out.printf("p%d response: STAND\n", playerNo);
+System.out.printf("%5s response: STAND\n", " ");
 				stand = true;
 			} else if (response == SP) {
-System.out.printf("p%d response: SPLIT\n", playerNo);
+System.out.printf("%5s response: SPLIT\n", " ");
 				splitHand(playerNo);
 			} else {
 				throw new IllegalStateException("invalid response: " + response);
@@ -169,17 +175,17 @@ System.out.printf("p%d response: SPLIT\n", playerNo);
 			hand = (BJHand) hands.get(playerNo);
 			precis = hand.getValue().getPrecis();
 		}
-		System.out.printf("p%d outcome: %s\n", playerNo, precis.toString());
-		System.out.printf("p%d hand: %s\n", playerNo, hands.get(playerNo).toString());
+System.out.printf("%5s outcome: %s\n", " ", precis);
+System.out.printf("%10s hand: %s\n", player, hands.get(playerNo));
 	}
    /**
-    * Now the dealer must play out his hand.	
+    * Now the dealer must play out his hand using house rules.	
     */
 	private void dealCardsToDealerTilOutcome() {
 		int dealerNo = hands.size() - 1;
 System.out.printf("Player: %s\n", players.get(dealerNo).toString());
-		BJPlayer player = (BJPlayer) players.get(dealerNo);
-		BJStrategy strat = player.getStrategy();
+		BJPlayer dealer = (BJPlayer) players.get(dealerNo);
+		BJStrategy strat = dealer.getStrategy();
 		BJDealerHand hand = (BJDealerHand) hands.get(dealerNo);
 		// now we can see the dealer's down card.
 		hand.showDownCard();
@@ -188,18 +194,18 @@ System.out.printf("Player: %s\n", players.get(dealerNo).toString());
 		while (precis != EXACTLY21_VALUE && precis != OVER21_VALUE && !stand) {
 			int response = strat.hit(null,(BJDealerHand) hands.get(dealerNo));
 			if (response == H) {
-System.out.printf("p%d response: HIT\n", dealerNo);
+System.out.printf("%5s response: HIT\n", dealer);
 				dealCardToPlayer(dealerNo);
 			} else if (response == S) {
-System.out.printf("p%d response: STAND\n", dealerNo);
+System.out.printf("%5s response: STAND\n", dealer);
 				stand = true;
 			} else {
 				throw new IllegalStateException("invalid response: " + response);
 			}
 			precis = hand.getValue().getPrecis();
 		}
-System.out.printf("p%d outcome: %s\n", dealerNo, precis.toString());
-System.out.printf("p%d hand: %s\n", dealerNo, hands.get(dealerNo).toString());
+System.out.printf("%5s outcome: %s\n", " ", precis);
+System.out.printf("%10s hand: %s\n", dealer, hands.get(dealerNo));
 	}
    /**
     * The player has decided to split his hand.	
@@ -210,12 +216,13 @@ System.out.printf("p%d hand: %s\n", dealerNo, hands.get(dealerNo).toString());
 		// by splitting the player's hand.  Do this by re-inserting
 		// the player into the players list and inserting the split hands
 		// in the hands list.
+		Player player = players.get(playerNo);
 		BJPlayerHand hand = (BJPlayerHand) hands.get(playerNo);
 		BJPlayerHand split1 = new BJPlayerHand(new ArrayList<>(Arrays.asList(hand.getCard(0))));
 		BJPlayerHand split2 = new BJPlayerHand(new ArrayList<>(Arrays.asList(hand.getCard(1))));
 		hands.set(playerNo, split1);
 		
-		insertPlayerAndHand(playerNo, (BJPlayer) players.get(playerNo), split2);
+		insertPlayerAndHand(playerNo, (BJPlayer) player, split2);
 		
 		// as per wizardsofodds.com/blackjack/basics 
 		// "...dealer will automatically give each card a second card..."
@@ -223,10 +230,15 @@ System.out.printf("p%d hand: %s\n", dealerNo, hands.get(dealerNo).toString());
 		dealCardToPlayer(playerNo);
 		dealCardToPlayer(playerNo+1);
 for (int i = playerNo; i <= (playerNo + 1); i++) {
-	System.out.printf("p%d split hand: %s\n", i, hands.get(i).toString());
+	System.out.printf("%10s split hand: %s\n", player, hands.get(i));
 }
 	}
-	
+   /**
+    * insertPlayerAndHand is tricky enough for its own method.	
+    * @param playerNo splitting player #.
+    * @param player player doing split.
+    * @param hand new hand, already split.
+    */
 	private void insertPlayerAndHand(int playerNo, BJPlayer player, BJPlayerHand hand) {
 		// assume that players and hands are in one-to-one correspondence.
 		int last = players.size();
@@ -252,13 +264,18 @@ for (Player p: winners) {
 System.out.println();
 		return winners;
 	}
-
+   /**
+    * evaluateOutcomes there weren't any "naturals" so evaluate the outcomes
+    * of each player taking his/her strategy.
+    * 
+    * The method is complex.  Look for bugs here.
+    */
 	private void evaluateOutcomes() {
 		int num = players.size();
 		showPlayerHands();
 		BJPlayer dealer = (BJPlayer) players.get(players.size() - 1);
 		BJHandValue dealerValue = ((BJHand) hands.get(players.size() - 1)).getValue();
-		int dealerTotal = dealerValue.getLowValue();
+		int dealerTotal = getBetterTotal(dealerValue);;
 		if (dealerValue.getPrecis() == OVER21_VALUE) {
 			// every player who hasn't gone BUST has won.
 			for (int i = 0; i < num - 1; i++) {
@@ -269,30 +286,45 @@ System.out.println();
 			}
 		} else {
 			// must compare player totals with dealer's total.
+			boolean isDealerBeat = false;
 			for (int i = 0; i < num - 1; i++) {
 				BJHandValue value = ((BJHand) hands.get(i)).getValue();
-				int playerTotal = (value.getHighValue() > 21) ? value.getLowValue() : value.getHighValue();
-				if ((value.getPrecis() != OVER21_VALUE) && (playerTotal > dealerTotal)) {
-					winners.add(players.get(i));
+				int playerTotal = getBetterTotal(value);
+				// only consider players who haven't bust.
+				if ((value.getPrecis() != OVER21_VALUE)) {
+					if ((playerTotal < dealerTotal)) {
+					} else if (playerTotal > dealerTotal){
+						isDealerBeat = true;
+						winners.add(players.get(i));
+					} else { // (playerTotal== dealerTotal)
+						winners.add(players.get(i));						
+					}
 				}
 			}
-			if (winners.size() == 0) {
+			if (!isDealerBeat) {
 				winners.add(dealer);
 			}
 		}
+	}
+   /**
+    * getBetterTotal determine if the high value can be used.  If
+    * it can't then use the low value.	
+    * @param value BJHand value.
+    * @return better of low/high total.
+    */
+	private int getBetterTotal(BJHandValue value) {
+		int total = (value.getHighValue() > 21) ? value.getLowValue() : value.getHighValue();
+		return total;
 	}
 	
 	private void showPlayerHands() {
 System.out.println("Game over.");
 		int i = 0;
 		for (Player player: players) {
-System.out.printf("p%d hand: %s\n", i, hands.get(i).toString());
+//System.out.printf("p%d hand: %s\n", i, hands.get(i).toString());
+System.out.printf("%10s hand: %s\n", player, hands.get(i));
 			i++;
 		}
 	}
 	
-	private boolean isDealerWinner() {
-		return winners.contains(players.get(players.size() - 1));
-	}
-
 }

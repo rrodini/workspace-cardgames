@@ -7,7 +7,8 @@ import static com.cardtech.game.blackjack.BJResponse.*;
 import com.cardtech.core.Card;
 
 /**
- * PlayerStrategy is the fixed strategy of a player taken from the wikipedia article on blackjack.
+ * PlayerStrategy is the fixed strategy of a player taken from the Wikipedia article on blackjack.
+ * Note: same strategy was found on other blackjack websites.
  */
 public class BJPlayerStrategy implements BJStrategy {
 
@@ -56,6 +57,9 @@ public class BJPlayerStrategy implements BJStrategy {
    /**
     * hit gives a response to the dealer's question regarding HIT or STAND.
     * The response depends on the player's cards and the dealer's up card.
+    * @param playerHand player's hand.
+    * @param dealerHand dealer's hand.
+    * @return See BJResponse values.
     */
 	@Override
 	public int hit(BJPlayerHand playerHand, BJDealerHand dealerHand) {

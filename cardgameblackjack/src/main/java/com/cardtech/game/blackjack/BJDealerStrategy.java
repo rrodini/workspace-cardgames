@@ -5,6 +5,11 @@ import static com.cardtech.game.blackjack.BJResponse.*;
 
 /**
  * BJDealerStrategy is the fixed strategy of the dealer following house rules.
+ * Dealer takes hits when his total is < 17.
+ * If the total is 17 and the hand is "hard" the dealer stands.
+ * However, if the total is 17 and the hand is "soft" a house rule kicks in.
+ * S17 states that the dealer must take a HIT (favorable to player).
+ * H17 states that the dealer must stand (favorable to house).  
  */
 public class BJDealerStrategy implements BJStrategy {
 

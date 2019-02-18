@@ -34,10 +34,10 @@ public class BJMain {
 		game.initialize(true);
 		game.play();
 		winners = game.getWinner();
-		System.out.println("Winners:");
-		for (Player winner: winners) {
-			System.out.println(winner.toString());
-		}
+//		System.out.println("Winners:");
+//		for (Player winner: winners) {
+//			System.out.println(winner.toString());
+//		}
 	}
 
 }
