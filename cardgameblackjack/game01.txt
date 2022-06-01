@@ -1,0 +1,43 @@
+Dealing 1st card:
+p0 hand: [2:DIAMOND]
+p1 hand: [J:DIAMOND]
+p2 hand: [J:SPADE]
+p3 hand: [J:CLUB]
+p4 hand: [9:SPADE]
+Deal 2nd card:
+p0 hand: [2:DIAMOND,K:HEART]
+p1 hand: [J:DIAMOND,4:HEART]
+p2 hand: [J:SPADE,2:HEART]
+p3 hand: [J:CLUB,J:CLUB]
+p4 hand: [9:SPADE,XX:XX]
+Evaluate Naturals
+Player: manny
+p0 response: HIT
+p0 outcome: OVER21_VALUE
+p0 hand: [2:DIAMOND,K:HEART,Q:CLUB]
+Player: moe
+p1 response: HIT
+p1 response: HIT
+p1 response: STAND
+p1 outcome: UNDER21_VALUE
+p1 hand: [J:DIAMOND,4:HEART,2:DIAMOND,4:DIAMOND]
+Player: jack
+p2 response: HIT
+p2 response: STAND
+p2 outcome: UNDER21_VALUE
+p2 hand: [J:SPADE,2:HEART,7:SPADE]
+Player: rock
+p3 response: STAND
+p3 outcome: UNDER21_VALUE
+p3 hand: [J:CLUB,J:CLUB]
+Player: dealer
+p4 response: STAND
+p4 outcome: UNDER21_VALUE
+p4 hand: [9:SPADE,A:HEART]
+Game over.
+p0 hand: [2:DIAMOND,K:HEART,Q:CLUB]
+p1 hand: [J:DIAMOND,4:HEART,2:DIAMOND,4:DIAMOND]
+p2 hand: [J:SPADE,2:HEART,7:SPADE]
+p3 hand: [J:CLUB,J:CLUB]
+p4 hand: [9:SPADE,A:HEART]
+Winner(s): moe jack rock
