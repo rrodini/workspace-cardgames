@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,7 @@ public class TestPokerRanker {
 
 	@Test
 	public void testRoyalFlush() {
-		ArrayList<Card> hand = new ArrayList<Card>(Arrays.asList(
+		List<Card> hand = new ArrayList<Card>(Arrays.asList(
 						new Card(Suit.SPADE, 14),
 						new Card(Suit.SPADE, 13),
 						new Card(Suit.SPADE, 12),
