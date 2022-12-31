@@ -69,7 +69,7 @@ abstract public class CardGame {
   * initialize the CardGame by saving off the player objects.
   * @param players array of player objects
   */
-	private void initialize(Player... players) {
+	protected void initialize(Player... players) {
 		this.players = new ArrayList<Player>(Arrays.asList(players));
 		// ATTENTION: Constructor below doesn't really allocate space for elements.
 		this.hands = new ArrayList<Hand>(players.length);

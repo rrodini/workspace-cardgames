@@ -30,7 +30,8 @@ public class Hand {
   * @param hand cards for the hand.
   */
 	public Hand(List<Card> hand) {
-		this.hand = hand;
+//		this.hand = hand;
+		this.hand = new LinkedList<>(hand);
 	}
 	
   /**
@@ -97,6 +98,20 @@ public class Hand {
 		}
 		return hand.get(which);
 	}
+  /**
+   * Set the card at the index position. Added to support poker play
+   * with wildcards when the wildcard is given an actual value;
+   * 
+   * @param which index of card within hand.
+   * @param card to replace existing card (probably a joker).
+   * @throws IllegalArgumentException when bad index is passed.
+   */
+	public void setCard(int which, Card card) {
+		if (which < 0 || which > hand.size()-1) {
+			throw new IllegalArgumentException("Bad index into hand:" + which);
+		}
+		hand.set(which, card);
+	}
    /**
     * Does the hand contain the given card?
     * Note: relies on Card.equals().
@@ -113,6 +128,7 @@ public class Hand {
 	public int getCardCount() {
 		return hand.size();
 	}
+
    /**
     * Add a card to the hand at the end.
     * @param c card to add.

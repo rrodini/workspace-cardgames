@@ -13,6 +13,7 @@ public enum PokerRank {
 	FLUSH,
 	FULL_HOUSE,
 	FOUR_OF_A_KIND,
+	FIVE_OF_A_KIND, // ONLY FOR WILDCARDS
 	STRAIGHT_FLUSH,
 	ROYAL_FLUSH,  // STRAIGHT is implied
 }

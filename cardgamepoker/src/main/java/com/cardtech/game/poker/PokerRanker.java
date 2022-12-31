@@ -24,6 +24,8 @@ public class PokerRanker {
 		// The sequence of if statements below is critical for determining the rank.
 		if (isStraightFlush(sortedHand)) {
 			rank = (highCard[0].getValue() == 14)?PokerRank.ROYAL_FLUSH: PokerRank.STRAIGHT_FLUSH;
+		} else if (isFiveOfAKind(sortedHand)) {
+			rank = PokerRank.FIVE_OF_A_KIND;
 		} else if (isFourOfAKind(sortedHand)) {
 			rank = PokerRank.FOUR_OF_A_KIND;
 		} else if (isFullHouse(sortedHand)) {
@@ -215,6 +217,21 @@ public class PokerRanker {
 		return false;
 	}
 
+ /**
+  * Is this four of a kind?	
+  * @param sortedHand
+  * @return true <=> four of a kind
+  */
+	private static boolean isFiveOfAKind(PokerHand sortedHand) {
+		long distinctValueCount = sortedHand.getHand()
+				.stream()
+				.map(c -> c.getValue())
+				.distinct()
+				.count();
+		Card [] highCard = {sortedHand.getCard(0)};
+		PokerRanker.highCard = highCard;
+		return distinctValueCount == 1;
+	}
  /**
   * Is this four of a kind?	
   * @param sortedHand

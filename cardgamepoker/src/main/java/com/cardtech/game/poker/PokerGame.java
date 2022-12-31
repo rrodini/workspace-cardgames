@@ -8,6 +8,7 @@ import com.cardtech.core.Deck;
 import com.cardtech.game.CardGame;
 import com.cardtech.game.Hand;
 import com.cardtech.game.Player;
+import com.cardtech.game.poker.wildcard.PlayWildcards;
 
 /**
  * PokerGame is a subclass of CardGame.  <br/><br/> 
@@ -19,32 +20,49 @@ public class PokerGame extends CardGame {
 	List<Player> winners = null;
 	PokerHand winningHand = null;
 	PokerRankWithHighCards winningRank = null;
-	
+	// Addition for game with jokers (wildcards).
+	// One for each player but entry may be null.
+	List<PokerHand> wildcardHands;
 /**
- * Construct a poker game with the given players.
+ * Construct a poker game with the given players
+ * using a standard 52 card deck;
  * @param players - array of player objects.
  */
 	public PokerGame(PokerPlayer... players) {
 		super(players);
 	}
-
  /**
   * Construct a PokerGame with the given deck and the given player objects.
-  * @param deck - an artificial deck for testing purposes.
+  * @param deck - a standard deck with two jokers or
+  *               an artificial deck for testing purposes.
   * @param players - array of player objects.
   */
 	public PokerGame(Deck deck, Player... players) {
 		super(deck, players);
+		//initialize(players);
 	}
-		
-	@Override
+	
+	protected void initialize(Player... players) {
+		super.initialize(players);
+		wildcardHands = new ArrayList<>(players.length);
+		// allocate space
+		for (int i = 0; i < players.length; i++) {
+			wildcardHands.add(null);
+		}
+	}
+
 	public void initialize(boolean shuffle) {
 		if (shuffle) {
 			deck.shuffle();
 		}
 		dealCardsToPlayers();
 	}
-
+ /** 
+  * Return a reference to the deck used for poker game.
+  */
+	public Deck getDeck() {
+		return deck;
+	}
  /**
   * Deal the cards to the poker players.  Note that cards are dealt one by one
   * to each player in turn.
@@ -60,9 +78,14 @@ public class PokerGame extends CardGame {
 			}
 		}
 		for (int j = 0; j < noOfPlayers; j++) {
-			ArrayList<Card> playerHand = dealtCards[j];
+			PokerHand playerHand = new PokerHand(dealtCards[j]);
 			// This is the crucial call that "sets" the player's hand.
-			hands.set(j, new PokerHand(playerHand) );
+			hands.set(j, playerHand );
+			//wildcardHands.set(j, null);
+			if (playerHand.containsWildcards()) {
+				PlayWildcards pwc = new PlayWildcards(playerHand);
+				wildcardHands.set(j, pwc.getBestHand());
+			}
 		}
 		
 	}
@@ -83,20 +106,24 @@ public class PokerGame extends CardGame {
 		for (int i=0; i < noOfPlayers; i++) {
 			// Here is where each hand gets ranked (showdown)!  This action is implicit in the
 			// use of a TreeMap which requires Comparable<Hand> to be implemented.
-			treeMap.put((PokerHand) hands.get(i), i);
+			PokerHand playerHand = (PokerHand) hands.get(i);
+			if (playerHand.containsWildcards()) {
+				playerHand = wildcardHands.get(i);
+			}
+			treeMap.put(playerHand, i);
 		}
 		
 		// Show the hand ranks in ascending order - just for debugging
 		// DEBUG DEBUG DEBUG DEBUG
-//		for (Map.Entry<PokerHand, List<Integer>> entry : treeMap.entrySet()){
-//			PokerHand ph = entry.getKey();
-//			List<Integer> winners = entry.getValue();
-//			System.out.printf("Rank: %s [", ph.getRank().getRank());
-//			for (int i = 0; i < winners.size(); i++) {
-//				System.out.printf("p%d ", winners.get(i));
-//			}
-//			System.out.printf("]\n");
-//		}
+		for (Map.Entry<PokerHand, List<Integer>> entry : treeMap.entrySet()){
+			PokerHand ph = entry.getKey();
+			List<Integer> winners = entry.getValue();
+			System.out.printf("Rank: %s [", ph.getRank().getRank());
+			for (int i = 0; i < winners.size(); i++) {
+				System.out.printf("p%d ", winners.get(i));
+			}
+			System.out.printf("]\n");
+		}
 		// The last entry is the highest poker hand.
 		Map.Entry<PokerHand, List<Integer>> winningEntry = treeMap.lastEntry();
 		// This is the winning hand. 
@@ -120,7 +147,7 @@ public class PokerGame extends CardGame {
 		// Show the player's hands (these have been sorted making things a little easier).
 		System.out.println("Player's hands:");
 		for (Hand hand: hands) {
-			System.out.printf("%s's hand, %s\n", players.get(which), hand );
+			System.out.printf("%s's hand: %s wildcard hand: %s\n", players.get(which), hand, wildcardHands.get(which));
 			// remember that players and hands are parallel arrays
 			which++;
 		}

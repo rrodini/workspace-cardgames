@@ -5,8 +5,12 @@ import static com.cardtech.core.Rank.ACE;
 
 /**
  * Card is an object with suit &amp;  value.  Typical value is (HEART, 6) which is, of course, is the six of hearts.
- * There are no jokers -- just the 13 cards of each suit (clubs, hearts, diamonds, spades).
- *
+ * There may be jokers in addition to the 13 cards of each suit (clubs, hearts, diamonds, spades).
+ * 
+ * Joker representation:
+ * Suit  Value         String  Note: no BLACK/RED Joker
+ * null  MAX_INTEGER   Joker1
+ * null  MAX_INTEGER-1 Joker2
  */
 public final class Card implements Comparable<Card>{
 	// make the instance variables immutable.
@@ -19,12 +23,13 @@ public final class Card implements Comparable<Card>{
  */
 	public Card(Suit s, int v) {
 		// only accept 2 .. 14 for now
-		if (v < TWO.getValue() || v > ACE.getValue()) {
-			throw new IllegalArgumentException("card value out of range: " + v);
-		}
-		if (s == null) {
-			throw new IllegalArgumentException("suit cannot be null");
-		}
+// Lines below were deactivated in order to make way for joker cards.
+//		if (v < TWO.getValue() || v > ACE.getValue()) {
+//			throw new IllegalArgumentException("card value out of range: " + v);
+//		}
+//		if (s == null) {
+//			throw new IllegalArgumentException("suit cannot be null");
+//		}
 		suit = s;
 		value = v;
 	}
@@ -50,7 +55,7 @@ public final class Card implements Comparable<Card>{
   * Show the card "image."
   */
 	public void show() {
-		System.out.print(this.toString() + " ");  // 2:CLUB prints as "TWO_CLUB "
+		System.out.print(this.toString() + " ");  // Example: 2:CLUB
 	}
 
   /**
@@ -59,24 +64,30 @@ public final class Card implements Comparable<Card>{
    */
 	public String toString() {
 		StringBuffer buf = new StringBuffer();
-		switch (this.value) {
-	case 11:
-			buf.append("J:");
-			break;
-	case 12:
-			buf.append("Q:");
-			break;
-	case 13:
-			buf.append("K:");
-			break;
-	case 14:
-			buf.append("A:");
-			break;
-	default:
-			// all non-face cards here
-			buf.append(this.value + ":");
+		if (this.suit == null) {
+			// Jokers
+			buf.append("Joker");
+			buf.append(this.value == Integer.MAX_VALUE? "1" : "2");
+		} else {
+			switch (this.value) {
+		case 11:
+				buf.append("J:");
+				break;
+		case 12:
+				buf.append("Q:");
+				break;
+		case 13:
+				buf.append("K:");
+				break;
+		case 14:
+				buf.append("A:");
+				break;
+		default:
+				// all non-face cards here
+				buf.append(this.value + ":");
+			}
+			buf.append(this.suit.toString());
 		}
-		buf.append(this.suit.toString());
 		return buf.toString();
 	}
 
@@ -96,6 +107,13 @@ public final class Card implements Comparable<Card>{
 			//return this.suit.compareTo(c2.suit); 
 		}
 		return result;
+	}
+	/**
+	 * isWild returns true when the card is a Joker.
+	 * Note: Joker representation is a kludge of suit/value.
+	 */
+	public boolean isWild() {
+		return suit == null && value >= Integer.MAX_VALUE - 1;
 	}
 	/**
 	 * Implement equals as per "value equality."

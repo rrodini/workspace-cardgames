@@ -11,7 +11,7 @@ import com.cardtech.game.Hand;
  */
 public class PokerHand extends Hand implements Comparable<PokerHand> {
 
-    final int POKERHAND_COUNT = 5;
+    public static final int POKERHAND_COUNT = 5;
 	private PokerRankWithHighCards rank;
 	
 	// This constructor doesn't reflect dealing a card to each player and repeating.
@@ -21,7 +21,7 @@ public class PokerHand extends Hand implements Comparable<PokerHand> {
   */
 	public PokerHand(List<Card> hand) {
 		super(hand);
-		checkCardCount(hand);		
+		checkCardCount(hand);
 	}
 
  /**
@@ -58,7 +58,26 @@ public class PokerHand extends Hand implements Comparable<PokerHand> {
 		}
 		return rank;
 	}
-	
+  /** 
+   * Count the # of wildcards in the hand (0, 1, 2).
+   * Note: there are only two jokers.
+   * @return
+   */
+	public int countWildcards() {
+		long count = 0;
+		count = hand.stream()
+				.filter( c -> c.isWild() )
+				.count();
+		return (int) count;
+	}
+  /**
+   * Does the hand contain any wildcards?
+   * 
+   * @return true if hand contains any wildcards.
+   */
+	public boolean containsWildcards() {
+		return countWildcards() > 0;
+	}
  /**
   * 
   * This method is mandated by Comparable interface. <br/>

@@ -59,7 +59,23 @@ public class TestPokerRanker {
 		assertTrue( highCards.length == 1);
 		assertTrue( highCards[0].getValue() == 6);
 	}
-	
+	@Test
+	// possible with wildcards
+	public void testFiveOfAKind() {
+		ArrayList<Card> hand = new ArrayList<Card>(Arrays.asList(
+						new Card(Suit.SPADE,   2),
+						new Card(Suit.HEART,   2),
+						new Card(Suit.DIAMOND, 2),
+						new Card(Suit.SPADE,   2),
+						new Card(Suit.CLUB,    2)));
+		PokerHand fiveOfAKind = new PokerHand(hand);
+		PokerRankWithHighCards rank = PokerRanker.rank(fiveOfAKind);
+		Card [] highCards = rank.getHighCards();
+		System.out.println("Rank is: " + rank.getRank());
+		assertTrue( rank.getRank() == PokerRank.FIVE_OF_A_KIND);
+		assertTrue( highCards.length == 1);
+		assertTrue( highCards[0].getValue() == 2);
+	}
 	@Test
 	public void testFourOfAKind() {
 		ArrayList<Card> hand = new ArrayList<Card>(Arrays.asList(
